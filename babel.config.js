@@ -2,6 +2,20 @@ module.exports = function (api) {
     api.cache(true);
     return {
         presets: ["babel-preset-expo"],
-        plugins: [require.resolve("expo-router/babel")]
+        plugins: [
+            [
+                "module-resolver",
+                {
+                    alias: {
+                        "@components": "./components",
+                        "@stores": "./stores",
+                        "@context": "./context",
+                        "@constants": "./constants",
+                        "@assets": "./assets"
+                    }
+                }
+            ],
+            require.resolve("expo-router/babel")
+        ]
     };
 };

@@ -1,13 +1,13 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useAuthStore } from "@stores";
 import * as Font from "expo-font";
 import { SplashScreen, useRouter } from "expo-router";
-import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { useAuthStore } from "../stores";
+import React, { createContext, ReactNode, useContext, useEffect } from "react";
 
-export const AuthContext = createContext({} as any);
+export const AuthContext = createContext({});
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [fontsLoaded, error] = Font.useFonts({
+    const [fontsLoaded] = Font.useFonts({
         SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
         ...FontAwesome.font
     });
@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     }, [fontsLoaded, router, isLoggedIn]);
 
-    const value = {} as any;
+    const value = {};
 
     return (
         <AuthContext.Provider value={value}>
