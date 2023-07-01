@@ -3,8 +3,6 @@ import { Pressable, Text, View } from "react-native";
 import { Link } from "expo-router";
 import React from "react";
 
-const dupa = "qew";
-
 export default function SignIn() {
     const { login, logout } = useAuthStore(state => state);
 

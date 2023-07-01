@@ -7,14 +7,14 @@ module.exports = {
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "prettier",
-        "prettier/@typescript-eslint",
-        "prettier/react"
+        "prettier"
     ],
-    overrides: [],
     parser: "@typescript-eslint/parser",
     parserOptions: {
-        ecmaVersion: "latest",
+        ecmaFeatures: {
+            jsx: true
+        },
+        ecmaVersion: 12,
         sourceType: "module"
     },
     plugins: ["react", "@typescript-eslint"],
@@ -24,6 +24,8 @@ module.exports = {
         }
     },
     rules: {
-        "no-console": "warn"
+        "@typescript-eslint/no-unused-vars": "error",
+        // to enforce using type for object type definitions, can be type or interface
+        "@typescript-eslint/consistent-type-definitions": ["error", "type"]
     }
 };
