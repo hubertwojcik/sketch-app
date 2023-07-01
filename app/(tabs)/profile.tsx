@@ -1,3 +1,4 @@
+import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 
 import { Text, View } from "../../components/Themed";
