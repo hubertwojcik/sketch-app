@@ -2,5 +2,5 @@ import React from "react";
 import { Stack } from "expo-router";
 
 export default function NotesLayout() {
-    return <Stack />;
+    return <Stack screenOptions={{ headerShown: false }} />;
 }
