@@ -1,4 +1,4 @@
 export * from "./Toolbar";
 export * from "./Header";
-export * from "./Drawing";
+export { default as Drawing } from "./Drawing/Drawing";
 export * from "./DrawingTile";
