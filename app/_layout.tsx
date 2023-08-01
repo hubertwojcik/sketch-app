@@ -1,12 +1,11 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect } from "react";
 
 import { useProtectedRoute } from "@hooks";
 import { useAuthStore } from "@stores";
-import { useColorScheme } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Font from "expo-font";
+import { ThemeContextProvider } from "@context";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -30,13 +29,12 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
     const { isLoggedIn } = useAuthStore();
-    const colorScheme = useColorScheme();
 
     useProtectedRoute(isLoggedIn);
 
     return (
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ThemeContextProvider>
             <Stack screenOptions={{ headerShown: false }} />
-        </ThemeProvider>
+        </ThemeContextProvider>
     );
 }

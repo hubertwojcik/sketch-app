@@ -15,8 +15,13 @@
             "@components": ["components"],
             "@stores": ["stores"],
             "@hooks": ["hooks"],
-            "@config/*": ["config/*"],
-            "@assets/*": ["assets/*"]
+            "@config": ["config"],
+            "@assets/*": ["assets/*"],
+            "@models": ["models"],
+            "@types": ["types"],
+            "@context": ["context"],
+            "@constants": ["constants"],
+            "@utils": ["utils"]
         }
     }
 }

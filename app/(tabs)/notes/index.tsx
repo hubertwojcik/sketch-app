@@ -1,30 +1,58 @@
+import { DrawingTile } from "@components";
+import { useDrawingStore } from "@stores";
+import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Text } from "../../../components/Themed";
+
+import { FlatList, Pressable, StyleSheet, Text, useWindowDimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Notes() {
+    const router = useRouter();
+    const { drawings } = useDrawingStore();
+    console.log("🚀 ~ file: index.tsx:13 ~ Notes ~ drawings:", drawings);
+    const { width } = useWindowDimensions();
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Notes</Text>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-        </View>
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.title}>HEADER</Text>
+            <Pressable
+                onPress={() => {
+                    router.push({
+                        pathname: "(note)/create"
+                    });
+                }}
+            >
+                <Text>Add note</Text>
+            </Pressable>
+
+            <FlatList
+                data={drawings}
+                renderItem={({ item }) => (
+                    <DrawingTile
+                        key={item.id}
+                        drawingId={item.id}
+                        svg={item.svg || ""}
+                        canvasInfo={item.canvasInfo}
+                        width={width}
+                    />
+                )}
+                columnWrapperStyle={{ justifyContent: "space-between" }}
+                contentContainerStyle={{ rowGap: 15 }}
+                numColumns={2}
+            />
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "royalblue"
+        padding: 20,
+        backgroundColor: "#f0f0f0"
     },
     title: {
         fontSize: 20,
+        marginBottom: 20,
         fontWeight: "bold"
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: "80%"
     }
 });

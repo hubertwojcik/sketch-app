@@ -10,8 +10,13 @@ module.exports = function (api) {
                         "@components": "./components",
                         "@stores": "./stores",
                         "@hooks": "./hooks",
+                        "@models": "./models",
                         "@constants": "./constants",
-                        "@assets": "./assets"
+                        "@context": "./context",
+                        "@config": "./config",
+                        "@assets": "./assets",
+                        "@types": "./types",
+                        "@utils": "./utils"
                     }
                 }
             ],
