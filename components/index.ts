@@ -1,4 +1,5 @@
-export * from "./Toolbar";
-export * from "./Header";
-export { default as Drawing } from "./Drawing/Drawing";
-export * from "./DrawingTile";
+export { default as Toolbar } from "./Toolbar";
+export { default as Header } from "./Header";
+export { default as Drawing } from "./Drawing";
+export { default as DrawingTile } from "./DrawingTile";
+export { default as TabButton } from "./TabBarButton";

@@ -1,6 +1,6 @@
-import { Header } from "../Header";
-import { Toolbar } from "../Toolbar";
-import { CANVAS_WIDTH } from "@config";
+import Header from "./Header";
+import Toolbar from "./Toolbar";
+import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH } from "@config";
 import { useTheme } from "@hooks";
 import {
     Canvas,
@@ -12,8 +12,9 @@ import {
 } from "@shopify/react-native-skia";
 import { useDrawingStore } from "@stores";
 import React, { useCallback, useState } from "react";
-import { LayoutChangeEvent, View } from "react-native";
-import { styles } from "./styles";
+import { LayoutChangeEvent, View, StyleSheet } from "react-native";
+import { moderateScale } from "@constants";
+import { getElevation } from "@utils";
 
 type DrawingProps = {
     id?: string;
@@ -111,3 +112,20 @@ export default function Drawing({ id }: DrawingProps) {
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        alignItems: "center",
+        paddingHorizontal: CANVAS_PADDING_HORIZONTAL
+    },
+    drawingContainer: {
+        width: CANVAS_WIDTH,
+        flex: 1,
+        borderRadius: moderateScale(12),
+        ...getElevation(5)
+    },
+    canvas: {
+        width: CANVAS_WIDTH
+    }
+});

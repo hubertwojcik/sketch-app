@@ -1,14 +1,13 @@
 import { Feather } from "@expo/vector-icons";
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import React, { useEffect } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withDelay,
     withSpring
 } from "react-native-reanimated";
-import { styles } from "./styles";
 
 type TabButtonProps = {
     iconName: keyof typeof Feather.glyphMap;
@@ -73,3 +72,35 @@ const TabButton = (props: TabButtonProps) => {
 };
 
 export default TabButton;
+
+const styles = StyleSheet.create({
+    wrapper: { flex: 1, height: 60 },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    btn: {
+        width: 45,
+        height: 45,
+        borderRadius: 25,
+
+        borderColor: "grey",
+        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    circle: {
+        ...StyleSheet.absoluteFillObject,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 25
+    },
+    text: {
+        fontSize: 12,
+        textAlign: "center",
+        color: "black",
+        marginTop: 3,
+        fontWeight: "500"
+    }
+});

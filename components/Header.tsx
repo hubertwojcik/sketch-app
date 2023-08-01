@@ -1,11 +1,11 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
-import { styles } from "./styles";
 import { useTheme } from "@hooks";
 
 import { useDrawingStore } from "@stores";
-import { makeSvgFromPaths } from "@utils";
+import { getElevation, makeSvgFromPaths } from "@utils";
+import { horizontalScale, verticalScale } from "@constants";
 
 export default function Header() {
     const router = useRouter();
@@ -50,3 +50,22 @@ export default function Header() {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+        height: 50,
+        width: "100%",
+        borderRadius: 100,
+        flexDirection: "row",
+        paddingHorizontal: horizontalScale(12),
+        marginHorizontal: horizontalScale(20),
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginVertical: verticalScale(12),
+        ...getElevation(5)
+    },
+    headerBackButton: {
+        paddingVertical: verticalScale(10)
+    },
+    headerSaveButton: { paddingVertical: verticalScale(10) }
+});

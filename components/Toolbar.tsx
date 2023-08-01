@@ -1,8 +1,21 @@
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+
+import { useTheme } from "@hooks";
 import { horizontalScale, verticalScale } from "@constants";
 import { getElevation } from "@utils";
-import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export default function Toolbar() {
+    const { colors } = useTheme();
+
+    return (
+        <View style={[styles.wrapper, { backgroundColor: colors.white }]}>
+            <Text>Toolbar</Text>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
     wrapper: {
         height: 50,
         width: "100%",
