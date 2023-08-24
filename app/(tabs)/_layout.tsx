@@ -2,12 +2,9 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { StyleSheet } from "react-native";
 
-// import Colors from "../../constants/Colors";
 import { TabButton } from "@components";
 
 export default function TabLayout() {
-    // const colorScheme = useColorScheme();
-
     return (
         <Tabs
             screenOptions={{

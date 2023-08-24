@@ -3,43 +3,50 @@ import { useDrawingStore } from "@stores";
 import { useRouter } from "expo-router";
 import React from "react";
 
-import { FlatList, Pressable, StyleSheet, Text, useWindowDimensions } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Notes() {
     const router = useRouter();
-    const { drawings } = useDrawingStore();
-    console.log("🚀 ~ file: index.tsx:13 ~ Notes ~ drawings:", drawings);
+    const { drawings, createLocalDrawing } = useDrawingStore();
+
     const { width } = useWindowDimensions();
+
+    const createNewDrawing = () => {
+        createLocalDrawing();
+        router.push({
+            pathname: "(note)/"
+        });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>HEADER</Text>
-            <Pressable
-                onPress={() => {
-                    router.push({
-                        pathname: "(note)/create"
-                    });
-                }}
-            >
+            <Pressable onPress={createNewDrawing}>
                 <Text>Add note</Text>
             </Pressable>
-
-            <FlatList
-                data={drawings}
-                renderItem={({ item }) => (
-                    <DrawingTile
-                        key={item.id}
-                        drawingId={item.id}
-                        svg={item.svg || ""}
-                        canvasInfo={item.canvasInfo}
-                        width={width}
-                    />
-                )}
-                columnWrapperStyle={{ justifyContent: "space-between" }}
-                contentContainerStyle={{ rowGap: 15 }}
-                numColumns={2}
-            />
+            <View style={{ backgroundColor: "red", flex: 1 }}>
+                <FlatList
+                    data={drawings}
+                    renderItem={({ item }) => {
+                        return (
+                            <DrawingTile
+                                key={item.id}
+                                drawingId={item.id}
+                                svg={item.svg || ""}
+                                canvasInfo={item.canvasInfo}
+                                width={width}
+                            />
+                        );
+                    }}
+                    columnWrapperStyle={{
+                        justifyContent: "space-between",
+                        backgroundColor: "red"
+                    }}
+                    contentContainerStyle={{ rowGap: 15 }}
+                    numColumns={2}
+                />
+            </View>
         </SafeAreaView>
     );
 }

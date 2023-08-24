@@ -6,19 +6,19 @@ import { useTheme } from "@hooks";
 import { useDrawingStore } from "@stores";
 import { getElevation, makeSvgFromPaths } from "@utils";
 import { horizontalScale, verticalScale } from "@constants";
+import { Drawing } from "@types";
 
 export default function Header() {
     const router = useRouter();
     const { colors } = useTheme();
-    const {
-        localDrawing,
+    const { localDrawing, setDrawingSvg, discardLocalDrawing, saveLocalDrawing } =
+        useDrawingStore();
 
-        setDrawingSvg,
-        discardLocalDrawing,
-        saveLocalDrawing
-    } = useDrawingStore();
+    if (!localDrawing) {
+        return null;
+    }
 
-    const { drawingPaths, canvasInfo, id } = localDrawing;
+    const { drawingPaths, canvasInfo, id } = localDrawing as Drawing;
 
     return (
         <View style={[styles.wrapper, { backgroundColor: colors.white }]}>
@@ -31,15 +31,17 @@ export default function Header() {
             >
                 <Text>Go back</Text>
             </Pressable>
+
             <Pressable
                 onPress={() => {
+                    if (!localDrawing) return;
                     const svg =
                         drawingPaths &&
                         makeSvgFromPaths(drawingPaths, {
                             width: canvasInfo.width || 300,
                             height: canvasInfo.height || 600
                         });
-                    setDrawingSvg(id as string, svg);
+                    setDrawingSvg(id, svg);
                     saveLocalDrawing();
                     router.back();
                 }}

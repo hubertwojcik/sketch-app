@@ -7,12 +7,10 @@ type DrawingStore = {
     removeSketch: (id: string) => void;
     setColor: (id: string, color: Color) => void;
     setStrokeWidth: (id: string, strokeWidth: number) => void;
-    addPath: (id: string, path: Path) => void;
     setDrawingPaths: (id: string, completedPaths: Path[]) => void;
     setDrawingSvg: (id: string, svg: string) => void;
-    setCanvasInfo: (id: string, canvasInfo: Resolution) => void;
-    //TEST
-    localDrawing: Drawing;
+    setLocalDrawingCanvasInfo: (canvasInfo: Resolution) => void;
+    localDrawing: Drawing | undefined;
     setLocalDrawing: (id: string) => void;
     createLocalDrawing: () => void;
     updateLocalDrawing: (local: Path[]) => void;
@@ -36,32 +34,26 @@ export const useDrawingStore = create<DrawingStore>((set, get) => ({
                 sketch.id === id ? { ...sketch, strokeWidth } : sketch
             )
         })),
-    addPath: (id, path) =>
-        set(state => ({
-            drawings: state.drawings.map(sketch =>
-                sketch.id === id
-                    ? { ...sketch, drawingPaths: [...sketch.drawingPaths, path] }
-                    : sketch
-            )
-        })),
     setDrawingPaths: (id, completedPaths) =>
         set(state => ({
             drawings: state.drawings.map(sketch =>
                 sketch.id === id ? { ...sketch, drawingPaths: completedPaths } : sketch
             )
         })),
-    setDrawingSvg: (id, svg) =>
-        set(state => ({
-            localDrawing: { ...state.localDrawing, svg }
-        })),
-    setCanvasInfo: (id, canvasInfo) =>
-        set(state => ({
-            drawings: state.drawings.map(sketch =>
-                sketch.id === id ? { ...sketch, canvasInfo } : sketch
-            )
-        })),
-    //TEST
-    localDrawing: new DrawingModel(),
+    setDrawingSvg: (id, svg) => {
+        const localDrawing = get().localDrawing;
+        if (!localDrawing) return;
+        const newLocalDrawing = { ...localDrawing, svg };
+        set({ localDrawing: newLocalDrawing });
+    },
+    setLocalDrawingCanvasInfo: canvasInfo => {
+        const loc = get().localDrawing;
+        if (!loc) return;
+        const localDrawing = { ...loc, canvasInfo };
+        set({ localDrawing });
+    },
+    localDrawing: undefined,
+
     setLocalDrawing: id => {
         const drawing = get().drawings.find(i => i.id === id);
         if (!drawing) {
@@ -70,6 +62,7 @@ export const useDrawingStore = create<DrawingStore>((set, get) => ({
         set({ localDrawing: drawing });
     },
     createLocalDrawing: () => set({ localDrawing: new DrawingModel() }),
+
     updateLocalDrawing: drawing => {
         const loc = get().localDrawing;
         if (!loc) return;
@@ -86,15 +79,13 @@ export const useDrawingStore = create<DrawingStore>((set, get) => ({
 
         let updatedDrawings;
         if (drawingExists) {
-            // Replace the existing drawing in the array
             updatedDrawings = drawings.map(d => (d.id === localDrawing.id ? localDrawing : d));
         } else {
-            // Add the new drawing to the array
             updatedDrawings = [...drawings, localDrawing];
         }
 
-        set({ drawings: updatedDrawings, localDrawing: new DrawingModel() });
+        set({ drawings: updatedDrawings, localDrawing: undefined });
     },
-    discardLocalDrawing: () => set({ localDrawing: new DrawingModel() })
+    discardLocalDrawing: () => set({ localDrawing: undefined })
 }));
 export default useDrawingStore;

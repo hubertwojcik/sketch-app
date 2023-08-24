@@ -4,8 +4,7 @@ import { useDrawingStore } from "@stores";
 import { Drawing } from "@types";
 import { getElevation } from "@utils";
 import { useRouter } from "expo-router";
-import { Pressable, View, Text } from "react-native";
-import { useTheme } from "@hooks";
+import { Pressable, View } from "react-native";
 
 type DrawingTileProps = Required<Pick<Drawing, "canvasInfo" | "svg">> & {
     width: number;
@@ -14,21 +13,25 @@ type DrawingTileProps = Required<Pick<Drawing, "canvasInfo" | "svg">> & {
 
 export default function DrawingTile({ canvasInfo, drawingId, svg, width }: DrawingTileProps) {
     const router = useRouter();
-    const { colors } = useTheme();
 
     const stringSvg = Skia.SVG.MakeFromString(svg);
+
     const src = rect(0, 0, canvasInfo.width, canvasInfo.height);
+
     const dst = rect(0, 0, width / 2 - 30, width / 2 - 30);
+
     const { setLocalDrawing } = useDrawingStore();
+
+    const changeDrawing = () => {
+        setLocalDrawing(drawingId);
+        router.push({
+            pathname: `(note)/`
+        });
+    };
 
     return (
         <Pressable
-            onPress={() => {
-                setLocalDrawing(drawingId);
-                router.push({
-                    pathname: `(note)/${drawingId}`
-                });
-            }}
+            onPress={changeDrawing}
             style={{
                 ...getElevation(4)
             }}
@@ -57,10 +60,6 @@ export default function DrawingTile({ canvasInfo, drawingId, svg, width }: Drawi
                         </Group>
                     )}
                 </Canvas>
-
-                <View style={{ backgroundColor: colors.blue }}>
-                    <Text>HEHEH</Text>
-                </View>
             </View>
         </Pressable>
     );

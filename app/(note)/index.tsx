@@ -1,17 +1,12 @@
 import { Drawing } from "@components";
+import { CANVAS_PADDING_HORIZONTAL } from "@config";
 import { useTheme } from "@hooks";
-import { useDrawingStore } from "@stores";
-import React, { useEffect } from "react";
+
+import React from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function NewNote() {
-    const { createLocalDrawing } = useDrawingStore();
-
-    useEffect(() => {
-        createLocalDrawing();
-    }, []);
-
+export default function Note() {
     const { colors } = useTheme();
 
     return (
@@ -25,6 +20,6 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         alignItems: "center",
-        paddingHorizontal: 12
+        paddingHorizontal: CANVAS_PADDING_HORIZONTAL
     }
 });

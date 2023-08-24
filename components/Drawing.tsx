@@ -16,18 +16,18 @@ import { LayoutChangeEvent, View, StyleSheet } from "react-native";
 import { moderateScale } from "@constants";
 import { getElevation } from "@utils";
 
-type DrawingProps = {
-    id?: string;
-};
-
-export default function Drawing({ id }: DrawingProps) {
+export default function Drawing() {
     const [canvasHeight, setCanvasHeight] = useState(400);
 
-    const { localDrawing, setCanvasInfo, updateLocalDrawing } = useDrawingStore();
+    const { localDrawing, setLocalDrawingCanvasInfo, updateLocalDrawing } = useDrawingStore();
+
+    if (!localDrawing) {
+        return null;
+    }
 
     const onLayout = (event: LayoutChangeEvent) => {
         setCanvasHeight(event.nativeEvent.layout.height);
-        setCanvasInfo(id as string, {
+        setLocalDrawingCanvasInfo({
             height: event.nativeEvent.layout.height,
             width: CANVAS_WIDTH
         });
