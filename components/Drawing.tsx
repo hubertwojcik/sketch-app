@@ -1,6 +1,6 @@
 import Header from "./Header";
 import Toolbar from "./Toolbar";
-import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH } from "@config";
+
 import { useTheme } from "@hooks";
 import {
     Canvas,
@@ -13,11 +13,16 @@ import {
 import { useDrawingStore } from "@stores";
 import React, { useCallback, useState } from "react";
 import { LayoutChangeEvent, View, StyleSheet } from "react-native";
-import { moderateScale } from "@constants";
+import {
+    CANVAS_PADDING_HORIZONTAL,
+    CANVAS_WIDTH,
+    DEFAULT_CANVAS_HEIGHT,
+    moderateScale
+} from "@constants";
 import { getElevation } from "@utils";
 
 export default function Drawing() {
-    const [canvasHeight, setCanvasHeight] = useState(400);
+    const [canvasHeight, setCanvasHeight] = useState(DEFAULT_CANVAS_HEIGHT);
 
     const { localDrawing, setLocalDrawingCanvasInfo, updateLocalDrawing } = useDrawingStore();
 

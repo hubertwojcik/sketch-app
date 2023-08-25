@@ -1,7 +1,7 @@
 import "react-native-get-random-values";
+import { strokes } from "@constants";
+import { Colors } from "@utils";
 import { Drawing, Path } from "types";
-import { Colors } from "../utils/colors";
-import { strokes } from "../utils/strokes";
 import { v4 as uuidv4 } from "uuid";
 
 class DrawingModel implements Drawing {

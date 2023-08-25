@@ -15,7 +15,6 @@
             "@components": ["components"],
             "@stores": ["stores"],
             "@hooks": ["hooks"],
-            "@config": ["config"],
             "@assets/*": ["assets/*"],
             "@models": ["models"],
             "@types": ["types"],

@@ -1,8 +1,7 @@
-import { createContext, useCallback, useMemo, useState } from "react";
-import { useColorScheme } from "react-native";
-import React from "react";
-import { ThemeContextValue, ThemeType } from "@types";
 import { Colors } from "@constants";
+import { ThemeContextValue, ThemeType } from "@types";
+import React, { createContext, useCallback, useMemo, useState } from "react";
+import { useColorScheme } from "react-native";
 
 export const ThemeContext = createContext<ThemeContextValue>({
     colors: Colors.light,

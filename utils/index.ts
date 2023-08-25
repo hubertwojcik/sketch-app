@@ -1,3 +1,2 @@
-export * from "./colors";
-export * from "./strokes";
+export * from "./elevation";
 export * from "./svg";

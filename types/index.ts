@@ -1,6 +1,6 @@
 import { sharedColors, TColors } from "@constants";
 import { SkPath } from "@shopify/react-native-skia";
-import { Colors } from "utils/colors";
+import { Colors } from "utils/elevation";
 
 export type Color = (typeof Colors)[number];
 

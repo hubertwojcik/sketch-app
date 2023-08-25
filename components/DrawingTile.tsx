@@ -4,15 +4,18 @@ import { useDrawingStore } from "@stores";
 import { Drawing } from "@types";
 import { getElevation } from "@utils";
 import { useRouter } from "expo-router";
-import { Pressable, View } from "react-native";
+import { Pressable, View, StyleSheet, useWindowDimensions } from "react-native";
+import spacing from "../constants/spacings";
+import { horizontalScale } from "@constants";
+import { useTheme } from "@hooks";
 
 type DrawingTileProps = Required<Pick<Drawing, "canvasInfo" | "svg">> & {
-    width: number;
     drawingId: string;
 };
 
-export default function DrawingTile({ canvasInfo, drawingId, svg, width }: DrawingTileProps) {
+export default function DrawingTile({ canvasInfo, drawingId, svg }: DrawingTileProps) {
     const router = useRouter();
+    const { width } = useWindowDimensions();
 
     const stringSvg = Skia.SVG.MakeFromString(svg);
 
@@ -29,34 +32,29 @@ export default function DrawingTile({ canvasInfo, drawingId, svg, width }: Drawi
         });
     };
 
+    const elementWidth = width / 2 - horizontalScale(spacing.xlarge);
+    const { colors } = useTheme();
+
     return (
-        <Pressable
-            onPress={changeDrawing}
-            style={{
-                ...getElevation(4)
-            }}
-        >
+        <Pressable onPress={changeDrawing} style={styles.tileContainer}>
             <View
-                style={{
-                    backgroundColor: "#ffffff",
-                    borderRadius: 10,
-                    width: width / 2 - 30,
-                    overflow: "hidden"
-                }}
+                style={[
+                    styles.tile,
+                    {
+                        backgroundColor: colors.white,
+                        width: elementWidth
+                    }
+                ]}
             >
                 <Canvas
                     style={{
-                        height: width / 2 - 30,
-                        width: "100%"
+                        height: elementWidth,
+                        width: elementWidth
                     }}
                 >
                     {stringSvg && (
                         <Group transform={fitbox("fitHeight", src, dst)}>
-                            <ImageSVG
-                                svg={stringSvg}
-                                width={width / 2 - 30}
-                                height={width / 2 - 30}
-                            />
+                            <ImageSVG svg={stringSvg} width={elementWidth} height={elementWidth} />
                         </Group>
                     )}
                 </Canvas>
@@ -64,3 +62,13 @@ export default function DrawingTile({ canvasInfo, drawingId, svg, width }: Drawi
         </Pressable>
     );
 }
+
+const styles = StyleSheet.create({
+    tileContainer: {
+        ...getElevation(4)
+    },
+    tile: {
+        borderRadius: spacing.small,
+        overflow: "hidden"
+    }
+});

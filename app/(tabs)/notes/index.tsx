@@ -1,16 +1,18 @@
 import { DrawingTile } from "@components";
+import { horizontalScale, moderateScale } from "@constants";
 import { useDrawingStore } from "@stores";
+import spacings from "../../../constants/spacings";
 import { useRouter } from "expo-router";
 import React from "react";
 
-import { FlatList, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const DRAWING_LIST_COLUMNS = 2;
 
 export default function Notes() {
     const router = useRouter();
     const { drawings, createLocalDrawing } = useDrawingStore();
-
-    const { width } = useWindowDimensions();
 
     const createNewDrawing = () => {
         createLocalDrawing();
@@ -21,11 +23,11 @@ export default function Notes() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>HEADER</Text>
+            <Text>HEADER</Text>
             <Pressable onPress={createNewDrawing}>
                 <Text>Add note</Text>
             </Pressable>
-            <View style={{ backgroundColor: "red", flex: 1 }}>
+            <View style={styles.listWrapper}>
                 <FlatList
                     data={drawings}
                     renderItem={({ item }) => {
@@ -35,16 +37,12 @@ export default function Notes() {
                                 drawingId={item.id}
                                 svg={item.svg || ""}
                                 canvasInfo={item.canvasInfo}
-                                width={width}
                             />
                         );
                     }}
-                    columnWrapperStyle={{
-                        justifyContent: "space-between",
-                        backgroundColor: "red"
-                    }}
-                    contentContainerStyle={{ rowGap: 15 }}
-                    numColumns={2}
+                    columnWrapperStyle={styles.listColumnWrapperStyle}
+                    contentContainerStyle={styles.listContentContainerStyle}
+                    numColumns={DRAWING_LIST_COLUMNS}
                 />
             </View>
         </SafeAreaView>
@@ -54,12 +52,15 @@ export default function Notes() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: "#f0f0f0"
+        padding: moderateScale(20)
     },
-    title: {
-        fontSize: 20,
-        marginBottom: 20,
-        fontWeight: "bold"
+    listWrapper: {
+        flex: 1
+    },
+    listColumnWrapperStyle: {
+        justifyContent: "space-between"
+    },
+    listContentContainerStyle: {
+        rowGap: horizontalScale(spacings.medium)
     }
 });

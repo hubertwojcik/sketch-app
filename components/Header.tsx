@@ -7,6 +7,8 @@ import { useDrawingStore } from "@stores";
 import { getElevation, makeSvgFromPaths } from "@utils";
 import { horizontalScale, verticalScale } from "@constants";
 import { Drawing } from "@types";
+import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "@constants";
+import spacings from "../constants/spacings";
 
 export default function Header() {
     const router = useRouter();
@@ -38,8 +40,8 @@ export default function Header() {
                     const svg =
                         drawingPaths &&
                         makeSvgFromPaths(drawingPaths, {
-                            width: canvasInfo.width || 300,
-                            height: canvasInfo.height || 600
+                            width: canvasInfo.width || DEFAULT_CANVAS_WIDTH,
+                            height: canvasInfo.height || DEFAULT_CANVAS_HEIGHT
                         });
                     setDrawingSvg(id, svg);
                     saveLocalDrawing();
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
     wrapper: {
         height: 50,
         width: "100%",
-        borderRadius: 100,
+        borderRadius: spacings.xlarge,
         flexDirection: "row",
         paddingHorizontal: horizontalScale(12),
         marginHorizontal: horizontalScale(20),

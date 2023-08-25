@@ -1,8 +1,5 @@
-//STROKE LINECAP
-
 import { Path } from "@types";
 
-//  stroke-linecap="${path.paint.getStrokeCap()}" stroke-linejoin="${path.paint.getStrokeJoin()}"
 export const makeSvgFromPaths = (
     paths: Path[],
     options: {

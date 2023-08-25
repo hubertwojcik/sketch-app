@@ -1,5 +1,6 @@
 import { Drawing } from "@components";
-import { CANVAS_PADDING_HORIZONTAL } from "@config";
+import { CANVAS_PADDING_HORIZONTAL } from "@constants";
+
 import { useTheme } from "@hooks";
 
 import React from "react";
