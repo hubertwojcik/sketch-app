@@ -1,5 +1,5 @@
-import { horizontalScale } from "@constants";
 import { Dimensions } from "react-native";
+import { horizontalScale } from "./responsiblity";
 
 export const SCREEN_WIDTH = Dimensions.get("window").width;
 export const CANVAS_PADDING_HORIZONTAL = horizontalScale(12);

@@ -17,7 +17,7 @@ module.exports = {
         ecmaVersion: 12,
         sourceType: "module"
     },
-    plugins: ["react", "@typescript-eslint"],
+    plugins: ["react", "@typescript-eslint", "eslint-plugin-no-inline-styles"],
     settings: {
         react: {
             version: "detect"
@@ -25,7 +25,7 @@ module.exports = {
     },
     rules: {
         "@typescript-eslint/no-unused-vars": "error",
-        // to enforce using type for object type definitions, can be type or interface
+        "no-inline-styles/no-inline-styles": 2,
         "@typescript-eslint/consistent-type-definitions": ["error", "type"]
     }
 };
