@@ -1,10 +1,10 @@
-import { Colors } from "@constants";
+import { ThemeColors } from "@constants";
 import { ThemeContextValue, ThemeType } from "@types";
 import React, { createContext, useCallback, useMemo, useState } from "react";
 import { useColorScheme } from "react-native";
 
 export const ThemeContext = createContext<ThemeContextValue>({
-    colors: Colors.light,
+    colors: ThemeColors.light,
     themeType: "light",
     isDarkTheme: false,
     setThemeType: undefined,
@@ -24,7 +24,10 @@ export const ThemeContextProvider = ({ children }: ThemeContextProviderProps) =>
     }, []);
 
     const isDarkTheme = useMemo(() => themeType === "dark", [themeType]);
-    const colors = useMemo(() => (isDarkTheme ? Colors.dark : Colors.light), [isDarkTheme]);
+    const colors = useMemo(
+        () => (isDarkTheme ? ThemeColors.dark : ThemeColors.light),
+        [isDarkTheme]
+    );
 
     return (
         <ThemeContext.Provider

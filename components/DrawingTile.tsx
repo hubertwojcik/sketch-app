@@ -6,7 +6,7 @@ import { getElevation } from "@utils";
 import { useRouter } from "expo-router";
 import { Pressable, View, StyleSheet, useWindowDimensions } from "react-native";
 import spacing from "../constants/spacings";
-import { horizontalScale } from "@constants";
+import { horizontalScale } from "@utils";
 import { useTheme } from "@hooks";
 
 type DrawingTileProps = Required<Pick<Drawing, "canvasInfo" | "svg">> & {

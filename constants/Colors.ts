@@ -1,5 +1,7 @@
 import { ColorPalettes, GrayscalePalette, SharedColors } from "@types";
 
+export const Colors = ["black", "red", "blue", "green", "orange", "yellow"] as const;
+
 export const sharedColors = {
     blue: "#2775ff",
     green: "#50d1b2",
@@ -18,7 +20,7 @@ export const sharedColors = {
 
 export type TColors = GrayscalePalette & SharedColors;
 
-export const Colors: ColorPalettes = {
+export const ThemeColors: ColorPalettes = {
     dark: {
         grayscale_0: "#0F0F12",
         grayscale_250: "#262631",

@@ -1,5 +1,3 @@
-export const Colors = ["black", "red", "blue", "green", "yellow", "white"] as const;
-
 const SHADOW_OFFSET_WIDTH_COEFFICIENT = 0.3;
 const SHADOW_OFFSET_HEIGHT_COEFFICIENT = 0.3;
 const SHADOW_OPACITY_COEFFICIENT = 0.2;
