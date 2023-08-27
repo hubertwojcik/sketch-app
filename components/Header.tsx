@@ -5,7 +5,7 @@ import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
 import { horizontalScale, verticalScale } from "@utils";
-import { useDrawingStore } from "@stores";
+import { useDrawingEditorStore, useDrawingListStore } from "@stores";
 import { getElevation, makeSvgFromPaths } from "@utils";
 
 import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "@constants";
@@ -14,23 +14,28 @@ import spacings from "../constants/spacings";
 export default function Header() {
     const router = useRouter();
     const { colors } = useTheme();
-    const { localDrawing, setDrawingSvg, discardLocalDrawing, saveLocalDrawing } =
-        useDrawingStore();
+
+    const { getDrawingById, updateDrawing, addDrawing } = useDrawingListStore();
+    const { localDrawing, discardLocalDrawing } = useDrawingEditorStore();
 
     if (!localDrawing) {
         return null;
     }
 
     const onDrawingSave = () => {
-        if (!localDrawing) return;
+        const drawingExists = getDrawingById(localDrawing.id);
+
         const svg =
             drawingPaths &&
             makeSvgFromPaths(drawingPaths, {
                 width: canvasInfo.width || DEFAULT_CANVAS_WIDTH,
                 height: canvasInfo.height || DEFAULT_CANVAS_HEIGHT
             });
-        setDrawingSvg(id, svg);
-        saveLocalDrawing();
+
+        drawingExists
+            ? updateDrawing({ ...localDrawing, svg })
+            : addDrawing({ ...localDrawing, svg });
+
         router.back();
     };
 
@@ -39,7 +44,7 @@ export default function Header() {
         router.back();
     };
 
-    const { drawingPaths, canvasInfo, id } = localDrawing;
+    const { drawingPaths, canvasInfo } = localDrawing;
 
     return (
         <View style={[styles.wrapper, { backgroundColor: colors.white }]}>

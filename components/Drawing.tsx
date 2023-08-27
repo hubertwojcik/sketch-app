@@ -10,7 +10,7 @@ import {
     useCanvasRef,
     useTouchHandler
 } from "@shopify/react-native-skia";
-import { useDrawingStore } from "@stores";
+import { useDrawingEditorStore } from "@stores";
 import React, { useCallback, useState } from "react";
 import { LayoutChangeEvent, View, StyleSheet } from "react-native";
 import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT } from "@constants";
@@ -19,7 +19,7 @@ import { getElevation, moderateScale } from "@utils";
 export default function Drawing() {
     const [canvasHeight, setCanvasHeight] = useState(DEFAULT_CANVAS_HEIGHT);
 
-    const { localDrawing, setLocalDrawingCanvasInfo, updateLocalDrawing } = useDrawingStore();
+    const { localDrawing, setLocalDrawingCanvasInfo, setDrawingPaths } = useDrawingEditorStore();
 
     if (!localDrawing) {
         return null;
@@ -46,9 +46,9 @@ export default function Drawing() {
                     strokeWidth: localDrawing.strokeWidth
                 }
             ];
-            updateLocalDrawing(newPaths);
+            setDrawingPaths(newPaths);
         },
-        [localDrawing, updateLocalDrawing]
+        [localDrawing, setDrawingPaths]
     );
 
     const onDrawingActive = useCallback(
@@ -64,9 +64,9 @@ export default function Drawing() {
                 ...localDrawing.drawingPaths.slice(0, localDrawing.drawingPaths.length - 1),
                 currentPath
             ];
-            updateLocalDrawing(newPaths);
+            setDrawingPaths(newPaths);
         },
-        [localDrawing, updateLocalDrawing]
+        [localDrawing, setDrawingPaths]
     );
 
     const touchHandler = useTouchHandler(

@@ -1,6 +1,6 @@
 import { DrawingTile } from "@components";
 import { horizontalScale, moderateScale } from "@utils";
-import { useDrawingStore } from "@stores";
+import { useDrawingEditorStore, useDrawingListStore } from "@stores";
 import spacings from "../../../constants/spacings";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -12,7 +12,10 @@ const DRAWING_LIST_COLUMNS = 2;
 
 export default function Notes() {
     const router = useRouter();
-    const { drawings, createLocalDrawing } = useDrawingStore();
+
+    const { drawings } = useDrawingListStore();
+
+    const { createLocalDrawing } = useDrawingEditorStore();
 
     const createNewDrawing = () => {
         createLocalDrawing();
