@@ -13,13 +13,8 @@ import {
 import { useDrawingStore } from "@stores";
 import React, { useCallback, useState } from "react";
 import { LayoutChangeEvent, View, StyleSheet } from "react-native";
-import {
-    CANVAS_PADDING_HORIZONTAL,
-    CANVAS_WIDTH,
-    DEFAULT_CANVAS_HEIGHT,
-    moderateScale
-} from "@constants";
-import { getElevation } from "@utils";
+import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT } from "@constants";
+import { getElevation, moderateScale } from "@utils";
 
 export default function Drawing() {
     const [canvasHeight, setCanvasHeight] = useState(DEFAULT_CANVAS_HEIGHT);

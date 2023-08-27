@@ -1,5 +1,5 @@
 import { DrawingTile } from "@components";
-import { horizontalScale, moderateScale } from "@constants";
+import { horizontalScale, moderateScale } from "@utils";
 import { useDrawingStore } from "@stores";
 import spacings from "../../../constants/spacings";
 import { useRouter } from "expo-router";

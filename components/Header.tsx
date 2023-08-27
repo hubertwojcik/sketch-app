@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { horizontalScale, verticalScale } from "@constants";
+import { horizontalScale, verticalScale } from "@utils";
 import { useDrawingStore } from "@stores";
 import { getElevation, makeSvgFromPaths } from "@utils";
 
