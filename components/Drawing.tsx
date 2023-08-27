@@ -19,7 +19,8 @@ import { getElevation, moderateScale } from "@utils";
 export default function Drawing() {
     const [canvasHeight, setCanvasHeight] = useState(DEFAULT_CANVAS_HEIGHT);
 
-    const { localDrawing, setLocalDrawingCanvasInfo, setDrawingPaths } = useDrawingEditorStore();
+    const { localDrawing, color, strokeWidth, setLocalDrawingCanvasInfo, setDrawingPaths } =
+        useDrawingEditorStore();
 
     if (!localDrawing) {
         return null;
@@ -42,13 +43,13 @@ export default function Drawing() {
                 ...localDrawing.drawingPaths,
                 {
                     path: newPath,
-                    color: localDrawing.color,
-                    strokeWidth: localDrawing.strokeWidth
+                    color: color,
+                    strokeWidth: strokeWidth
                 }
             ];
             setDrawingPaths(newPaths);
         },
-        [localDrawing, setDrawingPaths]
+        [localDrawing, setDrawingPaths, color, strokeWidth]
     );
 
     const onDrawingActive = useCallback(

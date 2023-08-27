@@ -1,3 +1,4 @@
+import { Colors, strokes } from "@constants";
 import { DrawingModel } from "@models";
 import { Color, Drawing, Path, Resolution } from "@types";
 import { create } from "zustand";
@@ -6,7 +7,9 @@ type DrawingStore = {
     localDrawing: Drawing | undefined;
     setLocalDrawing: (drawing: Drawing) => void;
     setDrawingPaths: (paths: Path[]) => void;
+    color: Color;
     setColor: (color: Color) => void;
+    strokeWidth: number;
     setStrokeWidth: (strokeWidth: number) => void;
     setLocalDrawingCanvasInfo: (canvasInfo: Resolution) => void;
     createLocalDrawing: () => void;
@@ -24,18 +27,13 @@ export const useDrawingStore = create<DrawingStore>((set, get) => ({
         const localDrawing = { ...loc, drawingPaths: paths };
         set({ localDrawing });
     },
-
+    color: Colors[0],
     setColor: color => {
-        const loc = get().localDrawing;
-        if (!loc) return;
-        const localDrawing = { ...loc, color };
-        set({ localDrawing });
+        set({ color });
     },
+    strokeWidth: strokes[0],
     setStrokeWidth: strokeWidth => {
-        const loc = get().localDrawing;
-        if (!loc) return;
-        const localDrawing = { ...loc, strokeWidth };
-        set({ localDrawing });
+        set({ strokeWidth });
     },
 
     setLocalDrawingCanvasInfo: canvasInfo => {
@@ -44,7 +42,9 @@ export const useDrawingStore = create<DrawingStore>((set, get) => ({
         const localDrawing = { ...loc, canvasInfo };
         set({ localDrawing });
     },
-    createLocalDrawing: () => set({ localDrawing: new DrawingModel() }),
-    discardLocalDrawing: () => set({ localDrawing: undefined })
+    createLocalDrawing: () =>
+        set({ localDrawing: new DrawingModel(), color: Colors[0], strokeWidth: strokes[0] }),
+    discardLocalDrawing: () =>
+        set({ localDrawing: undefined, color: Colors[0], strokeWidth: strokes[0] })
 }));
 export default useDrawingStore;

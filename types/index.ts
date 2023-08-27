@@ -17,8 +17,8 @@ export type Path = {
 export type Drawing = {
     id: string;
     drawingPaths: Path[];
-    color: Color;
-    strokeWidth: number;
+    // color: Color;
+    // strokeWidth: number;
     canvasInfo: Resolution;
     svg?: string;
 };
@@ -50,10 +50,14 @@ export type ThemeContextValue = {
     setThemeType?: React.Dispatch<React.SetStateAction<ThemeType>>;
 };
 
-export type PickerOptions = {
+export type CustomPickerProps = {
     pickerXPosition: number;
     isOpen: boolean;
     toggleOpen: () => void;
+};
+
+export type PickerOptions = Omit<CustomPickerProps, "toggleOpen"> & {
+    pickerXPosition: number;
     pickerWidth: number;
     toolbarSize: number;
     children: React.ReactNode;
@@ -64,5 +68,3 @@ export type PickerOptions = {
     animationDuration?: number;
     animationDelay?: number;
 };
-
-export type CustomPickerProps = Pick<PickerOptions, "toggleOpen" | "isOpen" | "pickerXPosition">;

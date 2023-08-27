@@ -10,7 +10,7 @@ import { useTheme } from "@hooks";
 import { PickerOptions } from "@types";
 import { getElevation } from "@utils";
 import React, { useEffect } from "react";
-import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -22,7 +22,6 @@ import Animated, {
 const Picker = ({
     pickerXPosition,
     isOpen,
-    toggleOpen,
     toolbarSize,
     pickerWidth,
     children,
@@ -105,11 +104,11 @@ const Picker = ({
                 </Animated.View>
             </Animated.View>
 
-            <Pressable onPress={toggleOpen} style={styles.pickedColorContainer}>
+            <View style={styles.pickedColorContainer}>
                 <Animated.View style={[styles.pickedColorIndicator, animatedPickerColorStyles]}>
                     {indicatorContent}
                 </Animated.View>
-            </Pressable>
+            </View>
         </View>
     );
 };
