@@ -49,3 +49,20 @@ export type ThemeContextValue = {
     toggleThemeType?: () => void;
     setThemeType?: React.Dispatch<React.SetStateAction<ThemeType>>;
 };
+
+export type PickerOptions = {
+    pickerXPosition: number;
+    isOpen: boolean;
+    toggleOpen: () => void;
+    pickerWidth: number;
+    toolbarSize: number;
+    children: React.ReactNode;
+    indicatorContent: React.ReactNode;
+    startYPosition?: number;
+    endYPosition?: number;
+    startXPosition?: number;
+    animationDuration?: number;
+    animationDelay?: number;
+};
+
+export type CustomPickerProps = Pick<PickerOptions, "toggleOpen" | "isOpen" | "pickerXPosition">;
