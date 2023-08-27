@@ -1,5 +1,5 @@
 import { View, StyleSheet, Pressable } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 import { useTheme } from "@hooks";
 import { TOOLBAR_HORIZONTAL_SPACING, TOOLBAR_SIZE, TOOLBAR_WIDTH } from "@constants";
@@ -15,27 +15,23 @@ export default function Toolbar() {
 
     const toolbarXPositionRef = useRef<number>(0);
 
-    const onBackdropPress = () => {
-        if (isColorPickerOpen) {
-            setIsColorPickerOpen(false);
-        } else {
-            setIsStrokePickerOpen(false);
-        }
-    };
+    const onBackdropPress = useCallback(() => {
+        setIsColorPickerOpen(false);
+        setIsStrokePickerOpen(false);
+    }, []);
 
-    const onColorPickerPress = () => {
-        if (isStrokePickerOpen) {
-            setIsStrokePickerOpen(false);
-        }
-        setIsColorPickerOpen(val => !val);
-    };
+    const togglePicker = useCallback((colorPicker = false, strokePicker = false) => {
+        setIsColorPickerOpen(colorPicker);
+        setIsStrokePickerOpen(strokePicker);
+    }, []);
 
-    const onStrokePickerPress = () => {
-        if (isColorPickerOpen) {
-            setIsColorPickerOpen(false);
-        }
-        setIsStrokePickerOpen(val => !val);
-    };
+    const onColorPickerPress = useCallback(() => {
+        togglePicker(!isColorPickerOpen, false);
+    }, [isColorPickerOpen]);
+
+    const onStrokePickerPress = useCallback(() => {
+        togglePicker(false, !isStrokePickerOpen);
+    }, [isStrokePickerOpen]);
 
     return (
         <>
