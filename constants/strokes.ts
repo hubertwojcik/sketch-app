@@ -1,1 +1,1 @@
-export const strokes = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
+export const strokes = [1, 2, 3, 4, 6, 8, 10];

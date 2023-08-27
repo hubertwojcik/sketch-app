@@ -1,6 +1,7 @@
 import { Dimensions } from "react-native";
 import { Colors } from "./colors";
 import { horizontalScale, verticalScale } from "../utils/responsiblity";
+import { strokes } from "./strokes";
 
 //DRAWING
 export const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -20,9 +21,25 @@ export const TOOLBAR_WIDTH =
 export const EXTERNAL_DOT_SIZE = verticalScale(30);
 export const INTERNAL_DOT_SIZE = verticalScale(25);
 
+//STROKE
+export const EXTERNAL_STROKE_SIZE = verticalScale(30);
+export const INTERNAL_STROKE_SIZE = verticalScale(30);
+
+//PICKER
+export const PICKER_HORIZONTAL_SPACING = verticalScale(10);
+
 //COLOR PICKER
-export const COLOR_PICKER_HORIZONTAL_SPACING = verticalScale(10);
 export const COLOR_PICKER_WIDTH =
     (Colors.length + 1) * EXTERNAL_DOT_SIZE +
-    2 * COLOR_PICKER_HORIZONTAL_SPACING +
-    8 * COLOR_PICKER_HORIZONTAL_SPACING;
+    //PADDING
+    2 * PICKER_HORIZONTAL_SPACING +
+    //GAPS
+    8 * PICKER_HORIZONTAL_SPACING;
+
+//STROKE PICKER
+export const STROKE_PICKER_WIDTH =
+    (strokes.length + 1) * EXTERNAL_STROKE_SIZE +
+    //PADDING
+    2 * PICKER_HORIZONTAL_SPACING +
+    //GAPS
+    8 * PICKER_HORIZONTAL_SPACING;

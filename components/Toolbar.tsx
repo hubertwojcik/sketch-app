@@ -3,21 +3,44 @@ import React, { useRef, useState } from "react";
 
 import { useTheme } from "@hooks";
 import { TOOLBAR_HORIZONTAL_SPACING, TOOLBAR_SIZE, TOOLBAR_WIDTH } from "@constants";
-import { getElevation, horizontalScale, verticalScale } from "@utils";
+import { getElevation, verticalScale } from "@utils";
 import ColorPicker from "./ColorPicker";
+import StrokePicker from "./StrokePicker";
 
 export default function Toolbar() {
-    const [isPickerOpen, setIsPickerOpen] = useState(false);
+    const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
     const [isStrokePickerOpen, setIsStrokePickerOpen] = useState(false);
 
     const { colors } = useTheme();
 
     const toolbarXPositionRef = useRef<number>(0);
 
+    const onBackdropPress = () => {
+        if (isColorPickerOpen) {
+            setIsColorPickerOpen(false);
+        } else {
+            setIsStrokePickerOpen(false);
+        }
+    };
+
+    const onColorPickerPress = () => {
+        if (isStrokePickerOpen) {
+            setIsStrokePickerOpen(false);
+        }
+        setIsColorPickerOpen(val => !val);
+    };
+
+    const onStrokePickerPress = () => {
+        if (isColorPickerOpen) {
+            setIsColorPickerOpen(false);
+        }
+        setIsStrokePickerOpen(val => !val);
+    };
+
     return (
         <>
-            {isPickerOpen && (
-                <Pressable style={styles.backdrop} onPress={() => setIsPickerOpen(false)} />
+            {(isColorPickerOpen || isStrokePickerOpen) && (
+                <Pressable style={styles.backdrop} onPress={onBackdropPress} />
             )}
             <View
                 style={[styles.wrapper, { backgroundColor: colors.white }]}
@@ -27,15 +50,17 @@ export default function Toolbar() {
             >
                 <ColorPicker
                     pickerXPosition={toolbarXPositionRef.current + TOOLBAR_HORIZONTAL_SPACING}
-                    isOpen={isPickerOpen}
-                    toggleOpen={() => setIsPickerOpen(!isPickerOpen)}
+                    isOpen={isColorPickerOpen}
+                    toggleOpen={onColorPickerPress}
                 />
 
                 <View style={styles.divider} />
-                <ColorPicker
-                    pickerXPosition={toolbarXPositionRef.current + TOOLBAR_HORIZONTAL_SPACING}
+                <StrokePicker
+                    pickerXPosition={
+                        toolbarXPositionRef.current + TOOLBAR_HORIZONTAL_SPACING + TOOLBAR_WIDTH / 2
+                    }
                     isOpen={isStrokePickerOpen}
-                    toggleOpen={() => setIsStrokePickerOpen(!isPickerOpen)}
+                    toggleOpen={onStrokePickerPress}
                 />
             </View>
         </>
@@ -50,7 +75,7 @@ const styles = StyleSheet.create({
         columnGap: TOOLBAR_HORIZONTAL_SPACING,
         flexDirection: "row",
         paddingHorizontal: TOOLBAR_HORIZONTAL_SPACING,
-        marginHorizontal: horizontalScale(20),
+        // marginHorizontal: horizontalScale(20),
         justifyItems: "space-between",
         alignItems: "center",
         marginTop: verticalScale(12),
