@@ -25,7 +25,6 @@ module.exports = {
     },
     rules: {
         "@typescript-eslint/no-unused-vars": "error",
-        "no-inline-styles/no-inline-styles": 2,
         "@typescript-eslint/consistent-type-definitions": ["error", "type"]
     }
 };

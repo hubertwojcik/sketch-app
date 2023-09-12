@@ -1,29 +1,30 @@
 import Header from "./Header";
 import Toolbar from "./Toolbar";
 
+import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT } from "@constants";
 import { useTheme } from "@hooks";
 import {
     Canvas,
     Path,
     Skia,
-    TouchInfo,
     useCanvasRef,
-    useTouchHandler
+    useTouchHandler,
+    useValue
 } from "@shopify/react-native-skia";
-import { useDrawingStore } from "@stores";
-import React, { useCallback, useState } from "react";
-import { LayoutChangeEvent, View, StyleSheet } from "react-native";
-import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT } from "@constants";
+import { useDrawingEditorStore } from "@stores";
 import { getElevation, moderateScale } from "@utils";
+import React, { useState } from "react";
+import { LayoutChangeEvent, StyleSheet, View } from "react-native";
 
 export default function Drawing() {
     const [canvasHeight, setCanvasHeight] = useState(DEFAULT_CANVAS_HEIGHT);
 
-    const { localDrawing, setLocalDrawingCanvasInfo, updateLocalDrawing } = useDrawingStore();
+    const { localDrawing, color, strokeWidth, setLocalDrawingCanvasInfo, setDrawingPaths } =
+        useDrawingEditorStore();
 
-    if (!localDrawing) {
-        return null;
-    }
+    const drawRef = useCanvasRef();
+    const path = useValue(Skia.Path.Make());
+    const paint = useValue(Skia.Paint());
 
     const onLayout = (event: LayoutChangeEvent) => {
         setCanvasHeight(event.nativeEvent.layout.height);
@@ -33,52 +34,34 @@ export default function Drawing() {
         });
     };
 
-    const onDrawingStart = useCallback(
-        (touchInfo: TouchInfo) => {
-            const { x, y } = touchInfo;
-            const newPath = Skia.Path.Make();
-            newPath.moveTo(x, y);
-            const newPaths = [
-                ...localDrawing.drawingPaths,
-                {
-                    path: newPath,
-                    color: localDrawing.color,
-                    strokeWidth: localDrawing.strokeWidth
-                }
-            ];
-            updateLocalDrawing(newPaths);
-        },
-        [localDrawing, updateLocalDrawing]
-    );
-
-    const onDrawingActive = useCallback(
-        (touchInfo: TouchInfo) => {
-            const { x, y } = touchInfo;
-            const currentPath = localDrawing.drawingPaths[localDrawing.drawingPaths.length - 1];
-            const lastPoint = currentPath.path.getLastPt();
-            const xMid = (lastPoint.x + x) / 2;
-            const yMid = (lastPoint.y + y) / 2;
-
-            currentPath.path.quadTo(lastPoint.x, lastPoint.y, xMid, yMid);
-            const newPaths = [
-                ...localDrawing.drawingPaths.slice(0, localDrawing.drawingPaths.length - 1),
-                currentPath
-            ];
-            updateLocalDrawing(newPaths);
-        },
-        [localDrawing, updateLocalDrawing]
-    );
-
     const touchHandler = useTouchHandler(
         {
-            onActive: onDrawingActive,
-            onStart: onDrawingStart
-        },
-        [onDrawingActive, onDrawingStart]
-    );
+            onStart: ({ x, y }) => {
+                path.current.moveTo(x, y);
+                paint.current.setStrokeWidth(strokeWidth);
+                paint.current.setColor(Skia.Color(color));
+            },
+            onActive: ({ x, y }) => {
+                const lastPt = path.current.getLastPt();
+                const xMid = (lastPt.x + x) / 2;
+                const yMid = (lastPt.y + y) / 2;
+                path.current.quadTo(lastPt.x, lastPt.y, xMid, yMid);
+            },
+            onEnd: () => {
+                const currentPath = {
+                    path: path.current.copy(),
+                    paint: paint.current.copy(),
+                    color
+                };
+                setDrawingPaths(currentPath);
 
+                path.current.reset();
+                paint.current.reset();
+            }
+        },
+        [localDrawing?.drawingPaths, color, strokeWidth]
+    );
     const { colors } = useTheme();
-    const canvasRef = useCanvasRef();
 
     return (
         <>
@@ -95,17 +78,28 @@ export default function Drawing() {
                             height: canvasHeight
                         }
                     ]}
-                    ref={canvasRef}
+                    ref={drawRef}
                 >
-                    {localDrawing.drawingPaths.map((path, idx) => (
+                    {localDrawing?.drawingPaths?.map((line, index) => (
                         <Path
-                            key={idx}
-                            path={path.path}
-                            color={path.color}
-                            style={"stroke"}
-                            strokeWidth={path.strokeWidth}
+                            key={`line_${line.path.toSVGString()}_${index}`}
+                            style="stroke"
+                            strokeJoin="round"
+                            strokeCap="round"
+                            path={line.path}
+                            paint={line.paint}
+                            strokeWidth={line.paint.getStrokeWidth()}
+                            color={line.paint.getColor()}
                         />
                     ))}
+                    <Path
+                        path={path}
+                        strokeWidth={strokeWidth}
+                        color={color}
+                        style="stroke"
+                        strokeJoin="round"
+                        strokeCap="round"
+                    />
                 </Canvas>
             </View>
             <Toolbar />

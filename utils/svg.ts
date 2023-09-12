@@ -17,12 +17,10 @@ export const makeSvgFromPaths = (
     <g>
   
       ${paths.map(path =>
-          path.path
-              ? `<path d="${path.path.toSVGString()}" stroke="${path.color}" stroke-width="${
-                    path.strokeWidth
-                }"
-     
-            />`
+          path.paint && path.path
+              ? `<path d="${path.path.toSVGString()}" stroke="${
+                    path?.color
+                }" stroke-width="${path.paint.getStrokeWidth()}" stroke-linecap="${path.paint.getStrokeCap()}" stroke-linejoin="${path.paint.getStrokeJoin()}"/>`
               : ""
       )}
       </g>

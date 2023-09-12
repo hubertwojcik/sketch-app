@@ -7,6 +7,7 @@ export default function SignIn() {
     const { login, logout } = useAuthStore(state => state);
 
     return (
+        // eslint-disable-next-line no-inline-styles/no-inline-styles
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
             <Text
                 onPress={() => {

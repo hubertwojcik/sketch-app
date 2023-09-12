@@ -1,18 +1,21 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useTheme } from "@hooks";
 import { EXTERNAL_STROKE_SIZE, INTERNAL_STROKE_SIZE } from "@constants";
 
-const Stroke = ({ width }: { width: number }) => {
+const Stroke = ({ width, onPress }: { width: number; onPress?: (stroke: number) => void }) => {
     const { colors } = useTheme();
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.white }]}>
+        <Pressable
+            onPress={() => onPress && onPress(width)}
+            style={[styles.container, { backgroundColor: colors.white }]}
+        >
             <View style={[styles.content]}>
                 <View style={[styles.stroke, { width, backgroundColor: colors.black }]} />
             </View>
-        </View>
+        </Pressable>
     );
 };
 

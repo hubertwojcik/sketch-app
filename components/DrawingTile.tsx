@@ -1,6 +1,6 @@
 import React from "react";
 import { Canvas, fitbox, Group, ImageSVG, rect, Skia } from "@shopify/react-native-skia";
-import { useDrawingStore } from "@stores";
+import { useDrawingEditorStore, useDrawingListStore } from "@stores";
 import { Drawing } from "@types";
 import { getElevation } from "@utils";
 import { useRouter } from "expo-router";
@@ -23,10 +23,13 @@ export default function DrawingTile({ canvasInfo, drawingId, svg }: DrawingTileP
 
     const dst = rect(0, 0, width / 2 - 30, width / 2 - 30);
 
-    const { setLocalDrawing } = useDrawingStore();
+    const { getDrawingById } = useDrawingListStore();
+    const { setLocalDrawing } = useDrawingEditorStore();
 
     const changeDrawing = () => {
-        setLocalDrawing(drawingId);
+        const drawing = getDrawingById(drawingId);
+        if (!drawing) return;
+        setLocalDrawing(drawing);
         router.push({
             pathname: `(note)/`
         });

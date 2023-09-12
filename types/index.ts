@@ -1,5 +1,5 @@
 import { Colors, sharedColors, TColors } from "@constants";
-import { SkPath } from "@shopify/react-native-skia";
+import { SkPath, SkPaint } from "@shopify/react-native-skia";
 
 export type Color = (typeof Colors)[number];
 
@@ -10,15 +10,15 @@ export type Resolution = {
 
 export type Path = {
     path: SkPath;
-    color: Color;
-    strokeWidth: number;
+    paint: SkPaint;
+    color?: Color;
 };
 
 export type Drawing = {
     id: string;
     drawingPaths: Path[];
-    color: Color;
-    strokeWidth: number;
+    // color: Color;
+    // strokeWidth: number;
     canvasInfo: Resolution;
     svg?: string;
 };
@@ -50,10 +50,14 @@ export type ThemeContextValue = {
     setThemeType?: React.Dispatch<React.SetStateAction<ThemeType>>;
 };
 
-export type PickerOptions = {
+export type CustomPickerProps = {
     pickerXPosition: number;
     isOpen: boolean;
     toggleOpen: () => void;
+};
+
+export type AnimatedPickerProps = CustomPickerProps & {
+    pickerXPosition: number;
     pickerWidth: number;
     toolbarSize: number;
     children: React.ReactNode;
@@ -64,5 +68,3 @@ export type PickerOptions = {
     animationDuration?: number;
     animationDelay?: number;
 };
-
-export type CustomPickerProps = Pick<PickerOptions, "toggleOpen" | "isOpen" | "pickerXPosition">;
