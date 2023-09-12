@@ -1,12 +1,13 @@
 import { DrawingTile } from "@components";
 import { horizontalScale, moderateScale } from "@utils";
 import { useDrawingEditorStore, useDrawingListStore } from "@stores";
-import spacings from "../../../constants/spacings";
+import spacings from "../../constants/spacings";
 import { useRouter } from "expo-router";
 import React from "react";
 
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ActionButton } from "../../components/FloatingButtons";
 
 const DRAWING_LIST_COLUMNS = 2;
 
@@ -47,6 +48,9 @@ export default function Notes() {
                     contentContainerStyle={styles.listContentContainerStyle}
                     numColumns={DRAWING_LIST_COLUMNS}
                 />
+            </View>
+            <View>
+                <ActionButton />
             </View>
         </SafeAreaView>
     );
