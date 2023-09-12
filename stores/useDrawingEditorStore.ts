@@ -6,7 +6,7 @@ import { create } from "zustand";
 type DrawingStore = {
     localDrawing: Drawing | undefined;
     setLocalDrawing: (drawing: Drawing) => void;
-    setDrawingPaths: (paths: Path[]) => void;
+    setDrawingPaths: (path: Path) => void;
     color: Color;
     setColor: (color: Color) => void;
     strokeWidth: number;
@@ -21,10 +21,11 @@ export const useDrawingStore = create<DrawingStore>((set, get) => ({
     setLocalDrawing: drawing => {
         set({ localDrawing: drawing });
     },
-    setDrawingPaths: paths => {
+    setDrawingPaths: path => {
         const loc = get().localDrawing;
         if (!loc) return;
-        const localDrawing = { ...loc, drawingPaths: paths };
+        const newPaths = [...loc.drawingPaths, path];
+        const localDrawing = { ...loc, drawingPaths: newPaths };
         set({ localDrawing });
     },
     color: Colors[0],

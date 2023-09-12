@@ -4,12 +4,12 @@ import { StyleSheet } from "react-native";
 import { useTheme } from "@hooks";
 import { EXTERNAL_STROKE_SIZE, INTERNAL_STROKE_SIZE } from "@constants";
 
-const Stroke = ({ width, onPress }: { width: number; onPress: (stroke: number) => void }) => {
+const Stroke = ({ width, onPress }: { width: number; onPress?: (stroke: number) => void }) => {
     const { colors } = useTheme();
 
     return (
         <Pressable
-            onPress={() => onPress(width)}
+            onPress={() => onPress && onPress(width)}
             style={[styles.container, { backgroundColor: colors.white }]}
         >
             <View style={[styles.content]}>

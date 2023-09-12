@@ -7,10 +7,10 @@ import {
     PICKER_START_Y_POSITION
 } from "@constants";
 import { useTheme } from "@hooks";
-import { PickerOptions } from "@types";
+import { AnimatedPickerProps } from "@types";
 import { getElevation } from "@utils";
 import React, { useEffect } from "react";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -30,8 +30,9 @@ const Picker = ({
     endYPosition = PICKER_END_Y_POSITION,
     startXPosition = PICKER_START_X_POSITION,
     animationDuration = PICKER_ANIMATION_DURATION,
-    animationDelay = PICKER_ANIMATION_DELAY
-}: PickerOptions) => {
+    animationDelay = PICKER_ANIMATION_DELAY,
+    toggleOpen
+}: AnimatedPickerProps) => {
     const { width } = useWindowDimensions();
 
     const translateY = useSharedValue(startYPosition);
@@ -91,7 +92,7 @@ const Picker = ({
     const { colors } = useTheme();
 
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={() => toggleOpen()}>
             <Animated.View style={[styles.wrapper, animatedWrapperStyles]}>
                 <Animated.View
                     style={[
@@ -104,12 +105,10 @@ const Picker = ({
                 </Animated.View>
             </Animated.View>
 
-            <View style={styles.pickedColorContainer}>
-                <Animated.View style={[styles.pickedColorIndicator, animatedPickerColorStyles]}>
-                    {indicatorContent}
-                </Animated.View>
-            </View>
-        </View>
+            <Animated.View style={[styles.pickedColorIndicator, animatedPickerColorStyles]}>
+                {indicatorContent}
+            </Animated.View>
+        </Pressable>
     );
 };
 
@@ -134,9 +133,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         ...getElevation(30)
     },
-    pickedColorContainer: {
-        height: "100%"
-    },
+
     pickedColorIndicator: { opacity: 1 }
 });
 

@@ -4,6 +4,7 @@ import React from "react";
 
 export default function SignIn() {
     return (
+        // eslint-disable-next-line no-inline-styles/no-inline-styles
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
             <Link href="sign-in" asChild>
                 <Pressable>

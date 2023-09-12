@@ -23,9 +23,16 @@ const StrokePicker = (props: CustomPickerProps) => {
             {...props}
             pickerWidth={STROKE_PICKER_WIDTH}
             toolbarSize={TOOLBAR_SIZE}
+            toggleOpen={props.toggleOpen}
             indicatorContent={<Stroke width={strokeWidth} onPress={props.toggleOpen} />}
         >
-            <Stroke width={strokeWidth} onPress={props.toggleOpen} />
+            <Stroke
+                width={strokeWidth}
+                onPress={() => {
+                    props.toggleOpen();
+                }}
+            />
+
             <View style={[styles.divider, { backgroundColor: colors.black }]} />
             {strokes.map(i => (
                 <Stroke onPress={chooseStroke} width={i} key={i} />

@@ -1,5 +1,5 @@
 import { Colors, sharedColors, TColors } from "@constants";
-import { SkPath } from "@shopify/react-native-skia";
+import { SkPath, SkPaint } from "@shopify/react-native-skia";
 
 export type Color = (typeof Colors)[number];
 
@@ -10,8 +10,8 @@ export type Resolution = {
 
 export type Path = {
     path: SkPath;
-    color: Color;
-    strokeWidth: number;
+    paint: SkPaint;
+    color?: Color;
 };
 
 export type Drawing = {
@@ -56,7 +56,7 @@ export type CustomPickerProps = {
     toggleOpen: () => void;
 };
 
-export type PickerOptions = Omit<CustomPickerProps, "toggleOpen"> & {
+export type AnimatedPickerProps = CustomPickerProps & {
     pickerXPosition: number;
     pickerWidth: number;
     toolbarSize: number;
