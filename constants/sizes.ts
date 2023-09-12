@@ -43,3 +43,7 @@ export const STROKE_PICKER_WIDTH =
     2 * PICKER_HORIZONTAL_SPACING +
     //GAPS
     8 * PICKER_HORIZONTAL_SPACING;
+
+// FLOATING BUTTON
+export const FAB_SIZE = 60;
+export const ICON_SIZE = 24;

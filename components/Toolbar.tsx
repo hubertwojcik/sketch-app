@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React, { useCallback, useRef, useState } from "react";
 
 import { useTheme } from "@hooks";
@@ -6,6 +6,7 @@ import { TOOLBAR_HORIZONTAL_SPACING, TOOLBAR_SIZE, TOOLBAR_WIDTH } from "@consta
 import { getElevation, verticalScale } from "@utils";
 import ColorPicker from "./ColorPicker";
 import StrokePicker from "./StrokePicker";
+import Backdrop from "./Backdrop";
 
 export default function Toolbar() {
     const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function Toolbar() {
     return (
         <>
             {(isColorPickerOpen || isStrokePickerOpen) && (
-                <Pressable style={styles.backdrop} onPress={onBackdropPress} />
+                <Backdrop onBackdropPress={onBackdropPress} backgroundColor="rgba(0, 0, 0, 0.2)" />
             )}
             <View
                 style={[styles.wrapper, { backgroundColor: colors.white }]}
@@ -78,10 +79,5 @@ const styles = StyleSheet.create({
         zIndex: 1,
         ...getElevation(5)
     },
-    divider: { height: "75%", width: 1, backgroundColor: "black" },
-    backdrop: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: "rgba(0, 0, 0, 0.2)",
-        zIndex: 1
-    }
+    divider: { height: "75%", width: 1, backgroundColor: "black" }
 });

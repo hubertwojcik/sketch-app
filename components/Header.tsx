@@ -8,7 +8,7 @@ import { horizontalScale, verticalScale } from "@utils";
 import { useDrawingEditorStore, useDrawingListStore } from "@stores";
 import { getElevation, makeSvgFromPaths } from "@utils";
 
-import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH } from "@constants";
+import { DEFAULT_CANVAS_HEIGHT, DEFAULT_CANVAS_WIDTH, ICON_SIZE } from "@constants";
 import spacings from "../constants/spacings";
 
 export default function Header() {
@@ -22,21 +22,23 @@ export default function Header() {
         return null;
     }
 
-    const onDrawingSave = () => {
+    const onDrawingSave = async () => {
         const drawingExists = getDrawingById(localDrawing.id);
 
         const svg =
             drawingPaths &&
-            makeSvgFromPaths(drawingPaths, {
+            (await makeSvgFromPaths(drawingPaths, {
                 width: canvasInfo.width || DEFAULT_CANVAS_WIDTH,
                 height: canvasInfo.height || DEFAULT_CANVAS_HEIGHT
-            });
+            }));
 
         drawingExists
             ? updateDrawing({ ...localDrawing, svg })
             : addDrawing({ ...localDrawing, svg });
 
-        router.back();
+        setTimeout(() => {
+            router.back();
+        }, 1);
     };
 
     const onDrawingDiscard = () => {
@@ -50,19 +52,19 @@ export default function Header() {
         <View style={[styles.wrapper, { backgroundColor: colors.white }]}>
             <View style={styles.headerRow}>
                 <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
-                    <Ionicons name="return-up-back-outline" size={24} color="black" />
+                    <Ionicons name="return-up-back-outline" size={ICON_SIZE} color={colors.black} />
                 </Pressable>
                 <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
-                    <Ionicons name="return-up-forward" size={24} color="black" />
+                    <Ionicons name="return-up-forward" size={ICON_SIZE} color={colors.black} />
                 </Pressable>
             </View>
             <View style={styles.headerRow}>
                 <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
-                    <AntDesign name="delete" size={24} color="black" />
+                    <AntDesign name="delete" size={ICON_SIZE} color={colors.black} />
                 </Pressable>
 
                 <Pressable onPress={onDrawingSave} style={styles.headerBackButton}>
-                    <AntDesign name="save" size={24} color="black" />
+                    <AntDesign name="save" size={ICON_SIZE} color={colors.black} />
                 </Pressable>
             </View>
         </View>
