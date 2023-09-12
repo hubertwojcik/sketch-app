@@ -1,58 +1,57 @@
 import { DrawingTile } from "@components";
-import { horizontalScale, moderateScale } from "@utils";
-import { useDrawingEditorStore, useDrawingListStore } from "@stores";
+import { getElevation, horizontalScale, moderateScale } from "@utils";
+import { useDrawingListStore } from "@stores";
 import spacings from "../../constants/spacings";
-import { useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ActionButton } from "../../components/FloatingButtons";
 
-const DRAWING_LIST_COLUMNS = 2;
+import { Backdrop, AddDeleteFloatingButtons } from "@components";
+import { DRAWINGS_LIST_COLUMNS } from "@constants";
 
 export default function Notes() {
-    const router = useRouter();
+    const [isFABOpen, setIsFABOpen] = useState(false);
 
     const { drawings } = useDrawingListStore();
 
-    const { createLocalDrawing } = useDrawingEditorStore();
-
-    const createNewDrawing = () => {
-        createLocalDrawing();
-        router.push({
-            pathname: "(note)/"
-        });
-    };
-
     return (
-        <SafeAreaView style={styles.container}>
-            <Text>HEADER</Text>
-            <Pressable onPress={createNewDrawing}>
-                <Text>Add note</Text>
-            </Pressable>
-            <View style={styles.listWrapper}>
-                <FlatList
-                    data={drawings}
-                    renderItem={({ item }) => {
-                        return (
-                            <DrawingTile
-                                key={item.id}
-                                drawingId={item.id}
-                                svg={item.svg || ""}
-                                canvasInfo={item.canvasInfo}
-                            />
-                        );
-                    }}
-                    columnWrapperStyle={styles.listColumnWrapperStyle}
-                    contentContainerStyle={styles.listContentContainerStyle}
-                    numColumns={DRAWING_LIST_COLUMNS}
-                />
-            </View>
-            <View>
-                <ActionButton />
-            </View>
-        </SafeAreaView>
+        <>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.listWrapper}>
+                    <FlatList
+                        data={drawings}
+                        renderItem={({ item }) => {
+                            return (
+                                <DrawingTile
+                                    key={item.id}
+                                    drawingId={item.id}
+                                    svg={item.svg || ""}
+                                    canvasInfo={item.canvasInfo}
+                                />
+                            );
+                        }}
+                        showsVerticalScrollIndicator={false}
+                        columnWrapperStyle={styles.listColumnWrapperStyle}
+                        contentContainerStyle={styles.listContentContainerStyle}
+                        numColumns={DRAWINGS_LIST_COLUMNS}
+                    />
+                </View>
+                <View style={styles.floatingButtonContainer}>
+                    <AddDeleteFloatingButtons
+                        isOpen={isFABOpen}
+                        setIsOpen={() => setIsFABOpen(val => !val)}
+                    />
+                </View>
+                {isFABOpen && (
+                    <Backdrop
+                        onBackdropPress={() => {
+                            setIsFABOpen(false);
+                        }}
+                    />
+                )}
+            </SafeAreaView>
+        </>
     );
 }
 
@@ -69,5 +68,13 @@ const styles = StyleSheet.create({
     },
     listContentContainerStyle: {
         rowGap: horizontalScale(spacings.medium)
+    },
+    floatingButtonContainer: {
+        alignItems: "flex-end",
+        zIndex: 10,
+        position: "absolute",
+        bottom: horizontalScale(50),
+        right: horizontalScale(30),
+        ...getElevation(10)
     }
 });

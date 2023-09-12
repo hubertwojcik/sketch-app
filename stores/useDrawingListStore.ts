@@ -11,6 +11,7 @@ type DrawingStore = {
 
 export const useDrawingStore = create<DrawingStore>((set, get) => ({
     drawings: [],
+    isEditting: false,
     addDrawing: (drawing: Drawing) => set({ drawings: [...get().drawings, drawing] }),
     getDrawingById: id => {
         return get().drawings.find(drawing => drawing.id === id);

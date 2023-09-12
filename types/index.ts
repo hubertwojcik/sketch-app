@@ -17,8 +17,6 @@ export type Path = {
 export type Drawing = {
     id: string;
     drawingPaths: Path[];
-    // color: Color;
-    // strokeWidth: number;
     canvasInfo: Resolution;
     svg?: string;
 };
