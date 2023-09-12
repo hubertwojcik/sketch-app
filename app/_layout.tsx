@@ -1,11 +1,9 @@
 import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect } from "react";
 
-import { useProtectedRoute } from "@hooks";
-import { useAuthStore } from "@stores";
+import { ThemeContextProvider } from "@context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Font from "expo-font";
-import { ThemeContextProvider } from "@context";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -28,10 +26,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-    const { isLoggedIn } = useAuthStore();
-
-    useProtectedRoute(isLoggedIn);
-
     return (
         <ThemeContextProvider>
             <Stack screenOptions={{ headerShown: false }} />
