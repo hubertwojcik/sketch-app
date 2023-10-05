@@ -26,7 +26,7 @@ export const useFloatingActionButtons = () => {
     return {
         onCreateIconPress,
         onDeleteIconPress,
-
+        selectionMode: interactionMode === InteractionMode.SELECTION,
         isOpen: interactionMode === InteractionMode.OPEN,
         toggleFloatingButtons: () => {
             if (interactionMode === InteractionMode.CLOSED) {

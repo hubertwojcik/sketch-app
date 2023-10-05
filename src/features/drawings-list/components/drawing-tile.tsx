@@ -37,6 +37,11 @@ export function DrawingTile({
 
     return (
         <Pressable onPress={() => onDrawingPress(id, isDeleteMode)} style={styles.tileContainer}>
+            {isDeleteMode && (
+                <View style={{ position: "absolute", zIndex: 20, right: 0 }}>
+                    <Text style={{ backgroundColor: "red" }}>{isDrawingSelected && "OK"}</Text>
+                </View>
+            )}
             <View
                 style={[
                     styles.tile,
@@ -45,11 +50,6 @@ export function DrawingTile({
                     }
                 ]}
             >
-                {isDeleteMode && (
-                    <View>
-                        <Text>{isDrawingSelected ? "SELECTED" : "NIESELECETD"}</Text>
-                    </View>
-                )}
                 <Canvas
                     style={{
                         height: dstHeight,
@@ -69,6 +69,7 @@ export function DrawingTile({
 
 const styles = StyleSheet.create({
     tileContainer: {
+        position: "relative",
         ...getElevation(4)
     },
     tile: {
