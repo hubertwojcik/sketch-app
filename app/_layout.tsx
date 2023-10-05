@@ -1,7 +1,7 @@
 import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect } from "react";
 
-import { ThemeContextProvider } from "@context";
+import { ThemeContextProvider } from "@/core";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import * as Font from "expo-font";
 
@@ -28,7 +28,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
     return (
         <ThemeContextProvider>
-            <Stack screenOptions={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }} initialRouteName="(amain)" />
         </ThemeContextProvider>
     );
 }

@@ -12,15 +12,7 @@
         "baseUrl": ".",
         "allowJs": true,
         "paths": {
-            "@components": ["components"],
-            "@stores": ["stores"],
-            "@hooks": ["hooks"],
-            "@assets/*": ["assets/*"],
-            "@models": ["models"],
-            "@types": ["types"],
-            "@context": ["context"],
-            "@constants": ["constants"],
-            "@utils": ["utils"]
+            "@/*": ["./src/*"]
         }
     }
 }
