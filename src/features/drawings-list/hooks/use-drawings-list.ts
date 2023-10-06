@@ -1,65 +1,21 @@
-import { useDrawingEditorStore, useDrawingListStore } from "@/core";
-import { InteractionMode } from "@/types";
-import { useRouter } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
+import { toggleListItem } from "@/utils";
 
 export const useDrawingsList = () => {
-    const { drawings, getDrawingById, interactionMode, setInteractionMode } = useDrawingListStore();
+    const [chosenDrawingIds, setChosenDrawingIds] = useState<string[]>([]);
 
-    const [choosenDrawingIds, setChoosenDrawingIds] = useState<string[]>([]);
+    const handleDeleteModeSelection = useCallback((drawingId: string) => {
+        setChosenDrawingIds(current => toggleListItem(drawingId, current));
+    }, []);
 
-    const { setLocalDrawing } = useDrawingEditorStore();
+    const isDrawingSelected = (id: string) => chosenDrawingIds.some(drawingId => id === drawingId);
 
-    const router = useRouter();
-
-    const handleNavigation = (drawingId: string) => {
-        const drawing = getDrawingById(drawingId);
-        if (!drawing) return;
-        setLocalDrawing(drawing);
-        router.push({ pathname: `(drawing)/` });
-    };
-
-    const handleDeleteModeSelection = useCallback(
-        (drawingId: string) => {
-            if (isDrawingSelected(drawingId)) {
-                const newDrawings = choosenDrawingIds.filter(drawing => drawing !== drawingId);
-                setChoosenDrawingIds(newDrawings);
-            } else {
-                setChoosenDrawingIds(val => [...val, drawingId]);
-            }
-        },
-        [choosenDrawingIds]
-    );
-
-    const onDrawingSelect = useCallback(
-        (drawingId: string, isDeleteMode: boolean) => {
-            if (isDeleteMode) {
-                handleDeleteModeSelection(drawingId);
-            } else {
-                handleNavigation(drawingId);
-            }
-        },
-        [handleDeleteModeSelection, handleNavigation]
-    );
-
-    const cancelSelectionMode = () => {
-        setInteractionMode(InteractionMode.CLOSED);
-        setChoosenDrawingIds([]);
-    };
-
-    const isDrawingSelected = (id: string) => choosenDrawingIds.some(drawingId => id === drawingId);
-
-    const selectedAmount = useMemo(() => choosenDrawingIds.length, [choosenDrawingIds]);
+    const selectedAmount = useMemo(() => chosenDrawingIds.length, [chosenDrawingIds]);
 
     return {
-        drawings,
-        choosenDrawingIds,
+        chosenDrawingIds,
         handleDeleteModeSelection,
         isDrawingSelected,
-        onDrawingSelect,
-        cancelSelectionMode,
-        isOpenMode: interactionMode === InteractionMode.OPEN,
-        isSelectionMode: interactionMode === InteractionMode.SELECTION,
         selectedAmount
     };
 };

@@ -12,23 +12,45 @@ import { DrawingTile } from "./components/drawing-tile";
 import { useDrawingsList } from "./hooks/";
 import { ListHeader } from "./components/list-header";
 import { SelectionBottomBar } from "./components/selection-bottom-bar";
+import { useDrawingEditorStore, useDrawingListStore } from "@/core";
+import { InteractionMode } from "@/types";
+import { useRouter } from "expo-router";
 
 export function DrawingsList() {
-    const {
-        drawings,
-        onDrawingSelect,
-        isDrawingSelected,
-        isSelectionMode,
-        isOpenMode,
-        cancelSelectionMode,
-        selectedAmount
-    } = useDrawingsList();
+    const { drawings, interactionMode, setInteractionMode, getDrawingById, removeDrawing } =
+        useDrawingListStore();
+    const { setLocalDrawing } = useDrawingEditorStore();
+
+    const { chosenDrawingIds, isDrawingSelected, selectedAmount, handleDeleteModeSelection } =
+        useDrawingsList();
+
+    const router = useRouter();
+
+    const selectAndNavigateoToDrawing = (drawingId: string) => {
+        const drawing = getDrawingById(drawingId);
+        if (!drawing) return;
+        setLocalDrawing(drawing);
+        router.push({ pathname: `(drawing)/` });
+    };
+
+    const handleOnDrawingSelect = (drawingId: string, isDeleteMode: boolean) => {
+        if (isDeleteMode) {
+            handleDeleteModeSelection(drawingId);
+        } else {
+            selectAndNavigateoToDrawing(drawingId);
+        }
+    };
+
+    const onDeleteDrawings = () => {
+        chosenDrawingIds.forEach(drawing => removeDrawing(drawing));
+        setInteractionMode(InteractionMode.CLOSED);
+    };
 
     return (
         <>
             <ListHeader
-                isSelectionMode={isSelectionMode}
-                cancelSelectionMode={cancelSelectionMode}
+                isSelectionMode={interactionMode === InteractionMode.SELECTION}
+                cancelSelectionMode={() => setInteractionMode(InteractionMode.CLOSED)}
             />
 
             <View style={styles.listWrapper}>
@@ -41,9 +63,9 @@ export function DrawingsList() {
                                 id={item.id}
                                 svg={item.svg || ""}
                                 canvasInfo={item.canvasInfo}
-                                onDrawingPress={onDrawingSelect}
+                                onDrawingPress={handleOnDrawingSelect}
                                 isDrawingSelected={isDrawingSelected(item.id)}
-                                isDeleteMode={isSelectionMode}
+                                isDeleteMode={interactionMode === InteractionMode.SELECTION}
                             />
                         );
                     }}
@@ -53,14 +75,14 @@ export function DrawingsList() {
                     numColumns={DRAWINGS_LIST_COLUMNS}
                 />
             </View>
-            <SelectionBottomBar isSelectionMode={isSelectionMode} selectedAmount={selectedAmount} />
+            <SelectionBottomBar
+                isSelectionMode={interactionMode === InteractionMode.SELECTION}
+                selectedAmount={selectedAmount}
+                deleteDrawings={onDeleteDrawings}
+            />
             <FloatingActionsButton />
-            {isOpenMode && (
-                <Backdrop
-                    onBackdropPress={() => {
-                        cancelSelectionMode();
-                    }}
-                />
+            {interactionMode === InteractionMode.OPEN && (
+                <Backdrop onBackdropPress={() => setInteractionMode(InteractionMode.CLOSED)} />
             )}
         </>
     );
