@@ -29,6 +29,7 @@ export function DrawingsList() {
     const selectAndNavigateoToDrawing = (drawingId: string) => {
         const drawing = getDrawingById(drawingId);
         if (!drawing) return;
+        console.log("qwe");
         setLocalDrawing(drawing);
         router.push({ pathname: `(drawing)/` });
     };
