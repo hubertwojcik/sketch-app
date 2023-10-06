@@ -7,14 +7,15 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { Backdrop } from "@/components";
 import { DRAWINGS_LIST_COLUMNS, Spacings } from "@/constants";
 
-import { FloatingActionsButton } from "./components";
-import { DrawingTile } from "./components/drawing-tile";
-import { useDrawingsList } from "./hooks/";
-import { ListHeader } from "./components/list-header";
-import { SelectionBottomBar } from "./components/selection-bottom-bar";
 import { useDrawingEditorStore, useDrawingListStore } from "@/core";
 import { InteractionMode } from "@/types";
 import { useRouter } from "expo-router";
+
+import { FloatingActionsButton } from "./components";
+import { DrawingTile } from "./components/drawing-tile";
+import { ListHeader } from "./components/list-header";
+import { SelectionBottomBar } from "./components/selection-bottom-bar";
+import { useDrawingsList } from "./hooks/";
 
 export function DrawingsList() {
     const { drawings, interactionMode, setInteractionMode, getDrawingById, removeDrawing } =
@@ -29,7 +30,6 @@ export function DrawingsList() {
     const selectAndNavigateoToDrawing = (drawingId: string) => {
         const drawing = getDrawingById(drawingId);
         if (!drawing) return;
-        console.log("qwe");
         setLocalDrawing(drawing);
         router.push({ pathname: `(drawing)/` });
     };
