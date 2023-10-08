@@ -4,8 +4,8 @@ import React from "react";
 
 import { FlatList, StyleSheet, View } from "react-native";
 
-import { Backdrop } from "@/components";
-import { DRAWINGS_LIST_COLUMNS, Spacings } from "@/constants";
+import { Backdrop } from "@/ui";
+import { DRAWINGS_LIST_COLUMNS } from "@/constants";
 
 import { useDrawingEditorStore, useDrawingListStore } from "@/core";
 import { InteractionMode } from "@/types";
@@ -16,6 +16,7 @@ import { DrawingTile } from "./components/drawing-tile";
 import { ListHeader } from "./components/list-header";
 import { SelectionBottomBar } from "./components/selection-bottom-bar";
 import { useDrawingsList } from "./hooks/";
+import { Spacings } from "@/ui/theme";
 
 export function DrawingsList() {
     const { drawings, interactionMode, setInteractionMode, getDrawingById, removeDrawing } =

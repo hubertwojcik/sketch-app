@@ -1,5 +1,4 @@
 import { CANVAS_PADDING_HORIZONTAL, CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT } from "@/constants";
-import { useTheme } from "@/core";
 import {
     Canvas,
     Path,
@@ -13,6 +12,7 @@ import { getElevation, moderateScale } from "@/utils";
 import React, { useState } from "react";
 import { LayoutChangeEvent, StyleSheet, View } from "react-native";
 import { DrawingHeader, DrawingToolbar } from "./components";
+import { borderRadiusSizes, colors } from "@/ui/theme";
 
 export function Drawing() {
     const [canvasHeight, setCanvasHeight] = useState(DEFAULT_CANVAS_HEIGHT);
@@ -59,15 +59,11 @@ export function Drawing() {
         },
         [localDrawing?.drawingPaths, color, strokeWidth]
     );
-    const { colors } = useTheme();
 
     return (
         <>
             <DrawingHeader />
-            <View
-                onLayout={onLayout}
-                style={[styles.drawingContainer, { backgroundColor: colors.white }]}
-            >
+            <View onLayout={onLayout} style={styles.drawingContainer}>
                 <Canvas
                     onTouch={touchHandler}
                     style={[
@@ -114,7 +110,8 @@ const styles = StyleSheet.create({
     drawingContainer: {
         width: CANVAS_WIDTH,
         flex: 1,
-        borderRadius: moderateScale(12),
+        borderRadius: moderateScale(borderRadiusSizes.thin),
+        backgroundColor: colors.white,
         ...getElevation(5)
     },
     canvas: {

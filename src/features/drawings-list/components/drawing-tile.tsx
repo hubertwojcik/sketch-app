@@ -4,8 +4,8 @@ import { getElevation, horizontalScale } from "@/utils";
 import React, { useMemo } from "react";
 import { Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 
-import { DRAWINGS_LIST_COLUMNS, Spacings } from "@/constants";
-import { useTheme } from "@/core";
+import { DRAWINGS_LIST_COLUMNS } from "@/constants";
+import { borderRadiusSizes, colors } from "@/ui/theme";
 
 type DrawingTileProps = Required<Omit<Drawing, "drawingPaths">> & {
     onDrawingPress: (id: string, isDeleteMode: boolean) => void;
@@ -33,8 +33,6 @@ export function DrawingTile({
 
     const stringSvg = useMemo(() => Skia.SVG.MakeFromString(svg), [svg]);
 
-    const { colors } = useTheme();
-
     return (
         <Pressable onPress={() => onDrawingPress(id, isDeleteMode)} style={styles.tileContainer}>
             {isDeleteMode && (
@@ -42,14 +40,7 @@ export function DrawingTile({
                     <Text style={{ backgroundColor: "red" }}>{isDrawingSelected && "OK"}</Text>
                 </View>
             )}
-            <View
-                style={[
-                    styles.tile,
-                    {
-                        backgroundColor: colors.white
-                    }
-                ]}
-            >
+            <View style={styles.tile}>
                 <Canvas
                     style={{
                         height: dstHeight,
@@ -73,7 +64,8 @@ const styles = StyleSheet.create({
         ...getElevation(4)
     },
     tile: {
-        borderRadius: Spacings.small,
-        overflow: "hidden"
+        borderRadius: borderRadiusSizes.thin,
+        overflow: "hidden",
+        backgroundColor: colors.white
     }
 });

@@ -6,6 +6,7 @@ export const useSelectionModeAnimations = (isSelectionMode: boolean) => {
     const { width } = useWindowDimensions();
 
     const bottomBarHeight = useSharedValue(0);
+    const bottomBarPosition = useSharedValue(-width);
     const floatingButtonRightPosition = useSharedValue(20);
     const headerTitleTranslation = useSharedValue(0);
     const headerCancelButtonTranslation = useSharedValue(width);
@@ -14,6 +15,7 @@ export const useSelectionModeAnimations = (isSelectionMode: boolean) => {
         if (isSelectionMode) {
             //Hide Floating button to right side
             floatingButtonRightPosition.value = withTiming(-60, { duration: 200 });
+            bottomBarPosition.value = withTiming(0, { duration: 200 });
             //Move header to left
             headerTitleTranslation.value = withTiming(-width, { duration: 250 });
             //Move cancel to left
@@ -23,6 +25,8 @@ export const useSelectionModeAnimations = (isSelectionMode: boolean) => {
         } else {
             // Hide bottom bar
             bottomBarHeight.value = withTiming(0, { duration: 200 });
+            bottomBarPosition.value = withTiming(-width, { duration: 200 });
+
             //Move header to right
             headerTitleTranslation.value = withTiming(0, { duration: 300 });
             //Move Cancel to right
@@ -34,9 +38,18 @@ export const useSelectionModeAnimations = (isSelectionMode: boolean) => {
 
     const reanimatedBottomBarStyles = useAnimatedStyle(() => {
         return {
-            height: bottomBarHeight.value
+            transform: [
+                {
+                    translateX: bottomBarPosition.value
+                }
+            ]
         };
     }, [isSelectionMode]);
+    // const reanimatedBottomBarStyles = useAnimatedStyle(() => {
+    //     return {
+    //         height: bottomBarHeight.value
+    //     };
+    // }, [isSelectionMode]);
 
     const reanimatedFloatingContainerStyles = useAnimatedStyle(() => {
         return {

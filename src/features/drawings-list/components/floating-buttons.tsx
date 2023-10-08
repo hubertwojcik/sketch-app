@@ -1,7 +1,7 @@
-import { AnimatedIconButton } from "@/components";
+import { AnimatedIconButton } from "./animated-icon-button";
 import { FAB_SIZE, ICON_SIZE } from "@/constants";
 import { Entypo } from "@expo/vector-icons";
-import { useTheme } from "@/core";
+
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
@@ -11,6 +11,7 @@ import Animated from "react-native-reanimated";
 import { getElevation, horizontalScale } from "@/utils";
 import { useSelectionModeAnimations } from "../animations";
 import { useToggleFloatingButtonAnimations } from "../animations/use-toggle-floating-button-animations";
+import { colors } from "@/ui/theme";
 
 export const FloatingActionsButton = () => {
     const { onCreateIconPress, onDeleteIconPress, isOpen, toggleFloatingButtons, selectionMode } =
@@ -24,8 +25,6 @@ export const FloatingActionsButton = () => {
     const onFloatingPress = () => {
         toggleFloatingButtons();
     };
-
-    const { colors } = useTheme();
 
     return (
         <>
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
     },
     fabContainer: {
         width: FAB_SIZE,
-        backgroundColor: "#0f56b3",
+        backgroundColor: colors.primary,
         borderRadius: FAB_SIZE / 2
     }
 });

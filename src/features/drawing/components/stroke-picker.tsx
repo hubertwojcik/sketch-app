@@ -9,22 +9,16 @@ import {
     TOOLBAR_SIZE
 } from "@/constants";
 
-import { useTheme } from "@/core";
-
 import { CustomPickerProps } from "@/types";
 import { useDrawingEditorStore } from "@/core";
-import { AnimatedPicker } from "@/components";
+import { AnimatedPicker } from "@/ui";
+import { borderRadiusSizes, colors } from "@/ui/theme";
 
 const Stroke = ({ width, onPress }: { width: number; onPress?: (stroke: number) => void }) => {
-    const { colors } = useTheme();
-
     return (
-        <Pressable
-            onPress={() => onPress && onPress(width)}
-            style={[styles.container, { backgroundColor: colors.white }]}
-        >
+        <Pressable onPress={() => onPress && onPress(width)} style={[styles.container, {}]}>
             <View style={[styles.content]}>
-                <View style={[styles.stroke, { width, backgroundColor: colors.black }]} />
+                <View style={[styles.stroke, { width }]} />
             </View>
         </Pressable>
     );
@@ -32,7 +26,6 @@ const Stroke = ({ width, onPress }: { width: number; onPress?: (stroke: number) 
 
 export const StrokePicker = (props: CustomPickerProps) => {
     const { setStrokeWidth, strokeWidth } = useDrawingEditorStore();
-    const { colors } = useTheme();
 
     const chooseStroke = (stroke: number) => {
         setStrokeWidth(stroke);
@@ -68,7 +61,8 @@ const styles = StyleSheet.create({
         width: EXTERNAL_STROKE_SIZE,
         height: EXTERNAL_STROKE_SIZE,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        backgroundColor: colors.white
     },
     content: {
         width: INTERNAL_STROKE_SIZE,
@@ -77,5 +71,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    stroke: { height: "100%", width: 2, borderRadius: 10 }
+    stroke: {
+        height: "100%",
+        width: 2,
+        borderRadius: borderRadiusSizes.thin,
+        backgroundColor: colors.black
+    }
 });

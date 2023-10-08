@@ -1,14 +1,14 @@
-import { Colors, strokes } from "@/constants";
+import { PickerColors, strokes } from "@/constants";
 import { DrawingModel } from "@/models";
-import { Color, Drawing, Path, Resolution } from "@/types";
+import type { PickerColor, Drawing, Path, Resolution } from "@/types";
 import { create } from "zustand";
 
 type DrawingStore = {
     localDrawing: Drawing | undefined;
     setLocalDrawing: (drawing: Drawing) => void;
     setDrawingPaths: (path: Path) => void;
-    color: Color;
-    setColor: (color: Color) => void;
+    color: PickerColor;
+    setColor: (color: PickerColor) => void;
     strokeWidth: number;
     setStrokeWidth: (strokeWidth: number) => void;
     setLocalDrawingCanvasInfo: (canvasInfo: Resolution) => void;
@@ -28,7 +28,7 @@ export const useDrawingEditorStore = create<DrawingStore>((set, get) => ({
         const localDrawing = { ...loc, drawingPaths: newPaths };
         set({ localDrawing });
     },
-    color: Colors[0],
+    color: PickerColors[0],
     setColor: color => {
         set({ color });
     },
@@ -44,7 +44,7 @@ export const useDrawingEditorStore = create<DrawingStore>((set, get) => ({
         set({ localDrawing });
     },
     createLocalDrawing: () =>
-        set({ localDrawing: new DrawingModel(), color: Colors[0], strokeWidth: strokes[0] }),
+        set({ localDrawing: new DrawingModel(), color: PickerColors[0], strokeWidth: strokes[0] }),
     discardLocalDrawing: () =>
-        set({ localDrawing: undefined, color: Colors[0], strokeWidth: strokes[0] })
+        set({ localDrawing: undefined, color: PickerColors[0], strokeWidth: strokes[0] })
 }));

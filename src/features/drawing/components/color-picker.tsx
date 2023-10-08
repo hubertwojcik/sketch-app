@@ -1,27 +1,23 @@
 import {
-    Colors,
+    PickerColors,
     COLOR_PICKER_WIDTH,
     EXTERNAL_DOT_SIZE,
     INTERNAL_DOT_SIZE,
     TOOLBAR_SIZE
 } from "@/constants";
-import { useTheme } from "@/core";
+
 import { useDrawingEditorStore } from "@/core";
-import { Color, CustomPickerProps } from "@/types";
+import { PickerColor, CustomPickerProps } from "@/types";
 import { getElevation } from "@/utils";
-import { AnimatedPicker } from "@/components";
+import { AnimatedPicker } from "@/ui";
 
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import { colors } from "@/ui/theme";
 
-const Dot = ({ color, onPress }: { color: Color; onPress: (color: Color) => void }) => {
-    const { colors } = useTheme();
-
+const Dot = ({ color, onPress }: { color: PickerColor; onPress: (color: PickerColor) => void }) => {
     return (
-        <Pressable
-            onPress={() => onPress(color)}
-            style={[styles.container, { backgroundColor: colors.white }]}
-        >
+        <Pressable onPress={() => onPress(color)} style={styles.container}>
             <View style={[styles.content, { backgroundColor: color }]}></View>
         </Pressable>
     );
@@ -30,9 +26,7 @@ const Dot = ({ color, onPress }: { color: Color; onPress: (color: Color) => void
 export const ColorPicker = (props: CustomPickerProps) => {
     const { setColor, color } = useDrawingEditorStore();
 
-    const { colors } = useTheme();
-
-    const chooseColor = (color: Color) => {
+    const chooseColor = (color: PickerColor) => {
         setColor(color);
         props.toggleOpen();
     };
@@ -45,9 +39,9 @@ export const ColorPicker = (props: CustomPickerProps) => {
             indicatorContent={<Dot onPress={props.toggleOpen} color={color} />}
         >
             <Dot color={color} onPress={props.toggleOpen} />
-            <View style={[styles.divider, { backgroundColor: colors.black }]} />
+            <View style={styles.divider} />
 
-            {Colors.map(i => (
+            {PickerColors.map(i => (
                 <Dot color={i} key={i} onPress={chooseColor} />
             ))}
         </AnimatedPicker>
@@ -61,9 +55,10 @@ const styles = StyleSheet.create({
         borderRadius: EXTERNAL_DOT_SIZE,
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: colors.white,
         ...getElevation(5)
     },
-    divider: { height: "100%", width: 1 },
+    divider: { height: "100%", width: 1, backgroundColor: colors.black },
     content: {
         width: INTERNAL_DOT_SIZE,
         height: INTERNAL_DOT_SIZE,

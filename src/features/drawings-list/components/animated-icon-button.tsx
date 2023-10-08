@@ -3,7 +3,7 @@ import React from "react";
 import Animated from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 import { ADD_BUTTON_INITIAL_BOTTOM, FAB_SIZE, ICON_SIZE } from "@/constants";
-import { useTheme } from "@/core";
+import { colors } from "@/ui/theme";
 
 type AnimatedIconButtonProps = {
     onPress: () => void;
@@ -16,7 +16,6 @@ export const AnimatedIconButton = ({
     reanimatedStyles,
     iconName
 }: AnimatedIconButtonProps) => {
-    const { colors } = useTheme();
     return (
         <Animated.View style={[styles.contentContainer, reanimatedStyles]}>
             <Pressable style={styles.iconContainer} onPress={onPress}>
@@ -28,10 +27,10 @@ export const AnimatedIconButton = ({
 
 const styles = StyleSheet.create({
     contentContainer: {
-        backgroundColor: "#0f56b3",
         position: "absolute",
         bottom: ADD_BUTTON_INITIAL_BOTTOM,
-        borderRadius: FAB_SIZE
+        borderRadius: FAB_SIZE,
+        backgroundColor: colors.primary
     },
     iconContainer: {
         height: FAB_SIZE,

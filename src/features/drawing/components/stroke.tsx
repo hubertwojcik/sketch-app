@@ -1,8 +1,9 @@
 import { Pressable, View } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useTheme } from "@/core";
+
 import { EXTERNAL_STROKE_SIZE, INTERNAL_STROKE_SIZE } from "@/constants";
+import { borderRadiusSizes, colors } from "@/ui/theme";
 
 export const Stroke = ({
     width,
@@ -11,15 +12,10 @@ export const Stroke = ({
     width: number;
     onPress?: (stroke: number) => void;
 }) => {
-    const { colors } = useTheme();
-
     return (
-        <Pressable
-            onPress={() => onPress && onPress(width)}
-            style={[styles.container, { backgroundColor: colors.white }]}
-        >
+        <Pressable onPress={() => onPress && onPress(width)} style={styles.container}>
             <View style={[styles.content]}>
-                <View style={[styles.stroke, { width, backgroundColor: colors.black }]} />
+                <View style={[styles.stroke, { width }]} />
             </View>
         </Pressable>
     );
@@ -30,7 +26,8 @@ const styles = StyleSheet.create({
         width: EXTERNAL_STROKE_SIZE,
         height: EXTERNAL_STROKE_SIZE,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        backgroundColor: colors.white
     },
     content: {
         width: INTERNAL_STROKE_SIZE,
@@ -39,5 +36,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    stroke: { height: "100%", width: 2, borderRadius: 10 }
+    stroke: {
+        height: "100%",
+        width: 2,
+        borderRadius: borderRadiusSizes.thin,
+        backgroundColor: colors.black
+    }
 });

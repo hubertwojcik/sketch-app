@@ -6,7 +6,7 @@ import {
     PICKER_START_X_POSITION,
     PICKER_START_Y_POSITION
 } from "@/constants";
-import { useTheme } from "@/core";
+
 import { AnimatedPickerProps } from "@/types";
 import { getElevation } from "@/utils";
 import React, { useEffect } from "react";
@@ -18,6 +18,7 @@ import Animated, {
     withSpring,
     withTiming
 } from "react-native-reanimated";
+import { colors } from "./theme";
 
 export const AnimatedPicker = ({
     pickerXPosition,
@@ -89,18 +90,10 @@ export const AnimatedPicker = ({
         };
     });
 
-    const { colors } = useTheme();
-
     return (
         <Pressable style={styles.container} onPress={() => toggleOpen()}>
             <Animated.View style={[styles.wrapper, animatedWrapperStyles]}>
-                <Animated.View
-                    style={[
-                        styles.pickerListContent,
-                        { backgroundColor: colors.white },
-                        animatedPickerListContentStyles
-                    ]}
-                >
+                <Animated.View style={[styles.pickerListContent, animatedPickerListContentStyles]}>
                     {children}
                 </Animated.View>
             </Animated.View>
@@ -131,6 +124,7 @@ const styles = StyleSheet.create({
         padding: PICKER_HORIZONTAL_SPACING,
         columnGap: PICKER_HORIZONTAL_SPACING,
         borderRadius: 100,
+        backgroundColor: colors.white,
         ...getElevation(30)
     },
 
