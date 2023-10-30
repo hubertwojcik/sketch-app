@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     },
     fabContainer: {
         width: FAB_SIZE,
-        backgroundColor: colors.primary,
+        backgroundColor: colors.accent,
         borderRadius: FAB_SIZE / 2
     }
 });

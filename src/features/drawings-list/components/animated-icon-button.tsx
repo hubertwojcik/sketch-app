@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: ADD_BUTTON_INITIAL_BOTTOM,
         borderRadius: FAB_SIZE,
-        backgroundColor: colors.primary
+        backgroundColor: colors.accent
     },
     iconContainer: {
         height: FAB_SIZE,
