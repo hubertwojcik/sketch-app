@@ -1,4 +1,12 @@
-type Color = "primary" | "secondary" | "accent" | "background" | "white" | "black" | "dark";
+type Color =
+    | "primary"
+    | "secondary"
+    | "accent"
+    | "background"
+    | "white"
+    | "black"
+    | "dark"
+    | "grey";
 
 export const colors: Record<Color, string> = {
     primary: "#E2E2EA",
@@ -7,5 +15,6 @@ export const colors: Record<Color, string> = {
     background: "#f1f1f1",
     dark: "#090909e6",
     white: "#fff",
-    black: "#000"
+    black: "#000",
+    grey: "#444"
 };

@@ -1,5 +1,14 @@
 import { verticalScale } from "../utils/responsiblity";
 
+//SPLASH SCREEN
+export const CIRCLE_INITIAL_ROTATION = 0;
+export const CIRCLE_ICON_INITIAL_VISIBILITY = 1;
+export const CIRCLE_INITIAL_TRANSLATION = 1;
+export const CIRCLE_ROTATION_DURATION = 1000;
+export const CIRCLE_ICON_VISIBILITY_DURATION = 100;
+export const CIRCLE_TRANSLATION_DELAY = 500;
+export const CIRCLE_TRANSLATION_DURATION = 700;
+
 //PICKER
 export const PICKER_ANIMATION_DELAY = 300;
 export const PICKER_ANIMATION_DURATION = 300;
