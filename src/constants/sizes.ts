@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-import { Colors } from "./colors";
+import { PickerColors } from "./colors";
 import { horizontalScale, verticalScale } from "../utils/responsiblity";
 import { strokes } from "./strokes";
 
@@ -30,7 +30,7 @@ export const PICKER_HORIZONTAL_SPACING = verticalScale(10);
 
 //COLOR PICKER
 export const COLOR_PICKER_WIDTH =
-    (Colors.length + 1) * EXTERNAL_DOT_SIZE +
+    (PickerColors.length + 1) * EXTERNAL_DOT_SIZE +
     //PADDING
     2 * PICKER_HORIZONTAL_SPACING +
     //GAPS

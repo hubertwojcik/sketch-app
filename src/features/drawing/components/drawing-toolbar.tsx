@@ -1,18 +1,16 @@
 import { View, StyleSheet } from "react-native";
 import React, { useCallback, useRef, useState } from "react";
 
-import { useTheme } from "@/core";
 import { TOOLBAR_HORIZONTAL_SPACING, TOOLBAR_SIZE, TOOLBAR_WIDTH } from "@/constants";
 import { getElevation, verticalScale } from "@/utils";
-import { Backdrop } from "@/components";
+import { Backdrop } from "@/ui";
 import { ColorPicker } from "./color-picker";
 import { StrokePicker } from "./stroke-picker";
+import { colors } from "@/ui/theme";
 
 export function DrawingToolbar() {
     const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
     const [isStrokePickerOpen, setIsStrokePickerOpen] = useState(false);
-
-    const { colors } = useTheme();
 
     const toolbarXPositionRef = useRef<number>(0);
 
@@ -40,7 +38,7 @@ export function DrawingToolbar() {
                 <Backdrop onBackdropPress={onBackdropPress} backgroundColor="rgba(0, 0, 0, 0.2)" />
             )}
             <View
-                style={[styles.wrapper, { backgroundColor: colors.white }]}
+                style={[styles.wrapper, {}]}
                 onLayout={({ nativeEvent }) => {
                     toolbarXPositionRef.current = nativeEvent.layout.x;
                 }}
@@ -71,11 +69,12 @@ const styles = StyleSheet.create({
         columnGap: TOOLBAR_HORIZONTAL_SPACING,
         flexDirection: "row",
         paddingHorizontal: TOOLBAR_HORIZONTAL_SPACING,
-        // marginHorizontal: horizontalScale(20),
+
         justifyItems: "space-between",
         alignItems: "center",
         marginTop: verticalScale(12),
         zIndex: 1,
+        backgroundColor: colors.white,
         ...getElevation(5)
     },
     divider: { height: "75%", width: 1, backgroundColor: "black" }

@@ -1,78 +1,60 @@
-import { getElevation, horizontalScale } from "@/utils";
-import { useDrawingListStore } from "@/core";
+import { horizontalScale } from "@/utils";
 
-import React, { useEffect } from "react";
+import React from "react";
 
-import { StyleSheet, Text, Pressable, FlatList, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
-import { Backdrop } from "@/components";
-import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withDelay,
-    withTiming
-} from "react-native-reanimated";
+import { Backdrop } from "@/ui";
+import { DRAWINGS_LIST_COLUMNS } from "@/constants";
+
+import { useDrawingEditorStore, useDrawingListStore } from "@/core";
 import { InteractionMode } from "@/types";
+import { useRouter } from "expo-router";
+
 import { FloatingActionsButton } from "./components";
-import { useDrawingsList } from "./hooks/";
-import { DRAWINGS_LIST_COLUMNS, Spacings } from "@/constants";
 import { DrawingTile } from "./components/drawing-tile";
-
-const useDeleteToolbarAnimation = (isSelectionMode: boolean) => {
-    const deleteToolbarHeight = useSharedValue(0);
-    const floatingPosition = useSharedValue(20);
-
-    useEffect(() => {
-        if (isSelectionMode) {
-            animateDeleteToolbar();
-        } else {
-            resetDeleteToolbar();
-        }
-    }, [isSelectionMode]);
-
-    const animateDeleteToolbar = () => {
-        floatingPosition.value = withDelay(300, withTiming(-60, { duration: 300 }));
-        deleteToolbarHeight.value = withDelay(600, withTiming(50));
-    };
-
-    const resetDeleteToolbar = () => {
-        deleteToolbarHeight.value = withTiming(0, { duration: 300 });
-        floatingPosition.value = withDelay(300, withTiming(20));
-    };
-
-    const reanimatedStyles = useAnimatedStyle(() => {
-        return {
-            height: deleteToolbarHeight.value
-        };
-    }, [isSelectionMode]);
-
-    const rea = useAnimatedStyle(() => {
-        return {
-            right: floatingPosition.value
-        };
-    });
-
-    return {
-        reanimatedStyles,
-        rea
-    };
-};
+import { ListHeader } from "./components/list-header";
+import { SelectionBottomBar } from "./components/selection-bottom-bar";
+import { useDrawingsList } from "./hooks/";
+import { Spacings } from "@/ui/theme";
 
 export function DrawingsList() {
-    const { interactionMode, setInteractionMode } = useDrawingListStore();
-    const { drawings, onDrawingSelect, isDrawingSelected, isSelectionMode } = useDrawingsList();
+    const { drawings, interactionMode, setInteractionMode, getDrawingById, removeDrawing } =
+        useDrawingListStore();
+    const { setLocalDrawing } = useDrawingEditorStore();
 
-    const { rea, reanimatedStyles } = useDeleteToolbarAnimation(
-        interactionMode === InteractionMode.SELECTION
-    );
+    const { chosenDrawingIds, isDrawingSelected, selectedAmount, handleDeleteModeSelection } =
+        useDrawingsList();
+
+    const router = useRouter();
+
+    const selectAndNavigateoToDrawing = (drawingId: string) => {
+        const drawing = getDrawingById(drawingId);
+        if (!drawing) return;
+        setLocalDrawing(drawing);
+        router.push({ pathname: `(drawing)/` });
+    };
+
+    const handleOnDrawingSelect = (drawingId: string, isDeleteMode: boolean) => {
+        if (isDeleteMode) {
+            handleDeleteModeSelection(drawingId);
+        } else {
+            selectAndNavigateoToDrawing(drawingId);
+        }
+    };
+
+    const onDeleteDrawings = () => {
+        chosenDrawingIds.forEach(drawing => removeDrawing(drawing));
+        setInteractionMode(InteractionMode.CLOSED);
+    };
 
     return (
         <>
-            {interactionMode === InteractionMode.SELECTION && (
-                <Pressable onPress={() => setInteractionMode(InteractionMode.CLOSED)}>
-                    <Text>Anuluj</Text>
-                </Pressable>
-            )}
+            <ListHeader
+                isSelectionMode={interactionMode === InteractionMode.SELECTION}
+                cancelSelectionMode={() => setInteractionMode(InteractionMode.CLOSED)}
+            />
+
             <View style={styles.listWrapper}>
                 <FlatList
                     data={drawings}
@@ -83,9 +65,9 @@ export function DrawingsList() {
                                 id={item.id}
                                 svg={item.svg || ""}
                                 canvasInfo={item.canvasInfo}
-                                onDrawingPress={onDrawingSelect}
+                                onDrawingPress={handleOnDrawingSelect}
                                 isDrawingSelected={isDrawingSelected(item.id)}
-                                isDeleteMode={isSelectionMode}
+                                isDeleteMode={interactionMode === InteractionMode.SELECTION}
                             />
                         );
                     }}
@@ -95,33 +77,20 @@ export function DrawingsList() {
                     numColumns={DRAWINGS_LIST_COLUMNS}
                 />
             </View>
-            {/* <DrawingsList /> */}
-            <Animated.View style={[{ backgroundColor: "red" }, reanimatedStyles]}>
-                <Text>HEHEHEH</Text>
-            </Animated.View>
-            <Animated.View style={[styles.floatingButtonContainer, rea]}>
-                <FloatingActionsButton />
-            </Animated.View>
+            <SelectionBottomBar
+                isSelectionMode={interactionMode === InteractionMode.SELECTION}
+                selectedAmount={selectedAmount}
+                deleteDrawings={onDeleteDrawings}
+            />
+            <FloatingActionsButton />
             {interactionMode === InteractionMode.OPEN && (
-                <Backdrop
-                    onBackdropPress={() => {
-                        setInteractionMode(InteractionMode.CLOSED);
-                    }}
-                />
+                <Backdrop onBackdropPress={() => setInteractionMode(InteractionMode.CLOSED)} />
             )}
         </>
     );
 }
 
 const styles = StyleSheet.create({
-    floatingButtonContainer: {
-        alignItems: "flex-end",
-        zIndex: 10,
-        position: "absolute",
-        bottom: horizontalScale(50),
-        right: horizontalScale(30),
-        ...getElevation(10)
-    },
     listWrapper: {
         flex: 1
     },

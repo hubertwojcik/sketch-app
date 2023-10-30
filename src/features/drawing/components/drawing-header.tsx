@@ -1,19 +1,19 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { useTheme } from "@/core";
+
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { getElevation, horizontalScale, verticalScale } from "@/utils";
+import { getElevation, horizontalScale, moderateScale, verticalScale } from "@/utils";
 
-import { ICON_SIZE, Spacings } from "@/constants";
+import { ICON_SIZE } from "@/constants";
 import { useDrawingHeader } from "../hooks";
+import { colors, Spacings } from "@/ui/theme";
 
 export function DrawingHeader() {
-    const { colors } = useTheme();
     const { onDrawingDiscard, onDrawingSave } = useDrawingHeader();
 
     return (
-        <View style={[styles.wrapper, { backgroundColor: colors.white }]}>
+        <View style={styles.wrapper}>
             <View style={styles.headerRow}>
                 <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
                     <Ionicons name="return-up-back-outline" size={ICON_SIZE} color={colors.black} />
@@ -38,13 +38,14 @@ export function DrawingHeader() {
 const styles = StyleSheet.create({
     wrapper: {
         width: "100%",
-        borderRadius: Spacings.xlarge,
+        borderRadius: moderateScale(Spacings.xlarge),
         flexDirection: "row",
         paddingHorizontal: horizontalScale(12),
         marginHorizontal: horizontalScale(20),
         justifyContent: "space-between",
         alignItems: "center",
         marginVertical: verticalScale(12),
+        backgroundColor: colors.white,
         ...getElevation(5)
     },
     headerBackButton: {

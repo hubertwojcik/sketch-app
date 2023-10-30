@@ -19,7 +19,7 @@ import {
     withTiming
 } from "react-native-reanimated";
 
-export const useFloatingButtonAnimations = (isOpen: boolean) => {
+export const useToggleFloatingButtonAnimations = (isOpen: boolean) => {
     const addDrawingValue = useSharedValue(ADD_BUTTON_INITIAL_BOTTOM);
     const deleteDrawingValue = useSharedValue(DELETE_BUTTON_INITIAL_BOTTOM);
 

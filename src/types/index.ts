@@ -1,4 +1,4 @@
-import { Colors, sharedColors, TColors } from "@/constants";
+import { PickerColors } from "@/constants";
 import { SkPath, SkPaint } from "@shopify/react-native-skia";
 
 export enum InteractionMode {
@@ -7,7 +7,7 @@ export enum InteractionMode {
     OPEN = "OPEN"
 }
 
-export type Color = (typeof Colors)[number];
+export type PickerColor = (typeof PickerColors)[number];
 
 export type Resolution = {
     width: number;
@@ -17,7 +17,7 @@ export type Resolution = {
 export type Path = {
     path: SkPath;
     paint: SkPaint;
-    color?: Color;
+    color?: PickerColor;
 };
 
 export type Drawing = {
@@ -25,33 +25,6 @@ export type Drawing = {
     drawingPaths: Path[];
     canvasInfo: Resolution;
     svg?: string;
-};
-
-//COLORS
-export type GrayscalePalette = {
-    grayscale_0: string;
-    grayscale_250: string;
-    grayscale_500: string;
-    grayscale_750: string;
-    grayscale_1000: string;
-};
-
-export type SharedColors = typeof sharedColors;
-
-export type ColorPalettes = {
-    light: TColors;
-    dark: TColors;
-};
-
-//THEME
-export type ThemeType = "dark" | "light";
-
-export type ThemeContextValue = {
-    colors: TColors;
-    themeType: ThemeType;
-    isDarkTheme: boolean;
-    toggleThemeType?: () => void;
-    setThemeType?: React.Dispatch<React.SetStateAction<ThemeType>>;
 };
 
 export type CustomPickerProps = {
