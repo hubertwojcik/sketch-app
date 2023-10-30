@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingBottom: verticalScale(Spacings.small),
         borderBottomWidth: 1,
-        borderBottomColor: colors.primary
+        borderBottomColor: colors.primary,
+        marginBottom: verticalScale(Spacings.medium)
     },
     cancelButtonContainer: {
         alignItems: "flex-end",
@@ -53,10 +54,10 @@ const styles = StyleSheet.create({
         ]
     },
     cancelButtonContent: {
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        backgroundColor: colors.dark,
         paddingHorizontal: horizontalScale(Spacings.medium),
         paddingVertical: verticalScale(Spacings.tiny),
-        borderRadius: 2 * borderRadiusSizes.thin
+        borderRadius: borderRadiusSizes.average
     },
     cancelText: { color: colors.white }
 });

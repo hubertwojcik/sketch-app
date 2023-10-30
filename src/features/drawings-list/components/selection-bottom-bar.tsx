@@ -4,6 +4,7 @@ import Animated from "react-native-reanimated";
 import { Text } from "@/ui";
 import { useSelectionModeAnimations } from "../animations";
 import { useWindowDimensions } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 import { borderRadiusSizes, colors, Spacings } from "@/ui/theme";
 import { horizontalScale, verticalScale } from "@/utils";
@@ -38,7 +39,7 @@ export const SelectionBottomBar = ({
         >
             <Text style={styles.tabSelectedText}>Zaznaczono {selectedAmount}</Text>
             <Pressable onPress={deleteDrawings}>
-                <Text>KOSZ</Text>
+                <AntDesign name="delete" size={22} color={colors.white} />
             </Pressable>
         </Animated.View>
     );
@@ -46,13 +47,13 @@ export const SelectionBottomBar = ({
 
 const styles = StyleSheet.create({
     tabContainer: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.dark,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: horizontalScale(Spacings.large),
         paddingVertical: verticalScale(Spacings.small),
-        borderRadius: borderRadiusSizes.thick
+        borderRadius: borderRadiusSizes.average
     },
     tabSelectedText: { color: colors.white }
 });
