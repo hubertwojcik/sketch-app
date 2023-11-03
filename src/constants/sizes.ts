@@ -1,12 +1,14 @@
 import { Dimensions } from "react-native";
 import { PickerColors } from "./colors";
-import { horizontalScale, verticalScale } from "../utils/responsiblity";
+import { horizontalScale, moderateScale, verticalScale } from "../utils/responsiblity";
 import { strokes } from "./strokes";
 
 //DRAWING
-export const SCREEN_WIDTH = Dimensions.get("window").width;
+export const WINDOW_WIDTH = Dimensions.get("window").width;
+export const SCREEN_HEIGHT = Dimensions.get("screen").height;
+export const SCREEN_WIDTH = Dimensions.get("screen").width;
 export const CANVAS_PADDING_HORIZONTAL = horizontalScale(12);
-export const CANVAS_WIDTH = SCREEN_WIDTH - 2 * CANVAS_PADDING_HORIZONTAL;
+export const CANVAS_WIDTH = WINDOW_WIDTH - 2 * CANVAS_PADDING_HORIZONTAL;
 export const DEFAULT_CANVAS_WIDTH = 300;
 export const DEFAULT_CANVAS_HEIGHT = 600;
 
@@ -47,3 +49,7 @@ export const STROKE_PICKER_WIDTH =
 // FLOATING BUTTON
 export const FAB_SIZE = 60;
 export const ICON_SIZE = 24;
+
+//CHECKMARK
+export const CHECKMARK_ICON_SIZE = moderateScale(25);
+export const CHECKMARK_INNER_IMAGE_SIZE = moderateScale(10);

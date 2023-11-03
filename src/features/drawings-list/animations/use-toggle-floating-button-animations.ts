@@ -5,7 +5,11 @@ import {
     BUTTON_ANIMATION_DURATION,
     DELETE_BUTTON_ANIMATION_DELAY,
     DELETE_BUTTON_FINAL_BOTTOM,
-    DELETE_BUTTON_INITIAL_BOTTOM
+    DELETE_BUTTON_INITIAL_BOTTOM,
+    FLOATING_CONTAINER_DELAY,
+    FLOATING_CONTAINER_DURATION,
+    FLOATING_CONTAINER_END_POSITION,
+    FLOATING_CONTAINER_INITIAL_POSITION
 } from "@/constants";
 import { useEffect } from "react";
 import {
@@ -19,16 +23,30 @@ import {
     withTiming
 } from "react-native-reanimated";
 
-export const useToggleFloatingButtonAnimations = (isOpen: boolean) => {
+export const useToggleFloatingButtonAnimations = (isOpen: boolean, selectionMode: boolean) => {
     const addDrawingValue = useSharedValue(ADD_BUTTON_INITIAL_BOTTOM);
     const deleteDrawingValue = useSharedValue(DELETE_BUTTON_INITIAL_BOTTOM);
+    const floatingContainerPosition = useSharedValue(FLOATING_CONTAINER_INITIAL_POSITION);
+
+    useEffect(() => {
+        if (selectionMode) {
+            floatingContainerPosition.value = withTiming(FLOATING_CONTAINER_END_POSITION, {
+                duration: FLOATING_CONTAINER_DURATION
+            });
+        } else {
+            floatingContainerPosition.value = withDelay(
+                FLOATING_CONTAINER_DELAY,
+                withTiming(FLOATING_CONTAINER_INITIAL_POSITION)
+            );
+        }
+    }, [selectionMode]);
 
     const config = {
         easing: Easing.bezier(0.67, -0.6, 0.32, 1.6),
         duration: BUTTON_ANIMATION_DURATION
     };
 
-    const openAnimation = (condition: boolean) => {
+    const toggleAnimation = (condition: boolean) => {
         if (!condition) {
             addDrawingValue.value = withTiming(ADD_BUTTON_INITIAL_BOTTOM, config);
             deleteDrawingValue.value = withDelay(
@@ -48,7 +66,7 @@ export const useToggleFloatingButtonAnimations = (isOpen: boolean) => {
     };
 
     useEffect(() => {
-        openAnimation(isOpen);
+        toggleAnimation(isOpen);
     }, [isOpen]);
 
     const reaanimatedCreateIconStyles = useAnimatedStyle(() => {
@@ -71,5 +89,15 @@ export const useToggleFloatingButtonAnimations = (isOpen: boolean) => {
         return { bottom: deleteDrawingValue.value, transform: [{ scale }] };
     });
 
-    return { reaanimatedCreateIconStyles, reanimatedDeleteIconStyles };
+    const reanimatedFloatingContainerStyles = useAnimatedStyle(() => {
+        return {
+            right: floatingContainerPosition.value
+        };
+    });
+
+    return {
+        reaanimatedCreateIconStyles,
+        reanimatedDeleteIconStyles,
+        reanimatedFloatingContainerStyles
+    };
 };

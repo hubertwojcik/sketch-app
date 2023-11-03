@@ -4,6 +4,8 @@ import { useDrawingEditorStore, useDrawingListStore } from "@/core";
 import { makeSvgFromPaths } from "@/utils";
 import { useRouter } from "expo-router";
 
+const NAVIGATION_DELAY = 100;
+
 export const useDrawingHeader = () => {
     const router = useRouter();
 
@@ -30,7 +32,7 @@ export const useDrawingHeader = () => {
 
         setTimeout(() => {
             router.back();
-        }, 100);
+        }, NAVIGATION_DELAY);
     };
 
     const onDrawingDiscard = () => {

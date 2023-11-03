@@ -1,30 +1,26 @@
-import { AnimatedIconButton } from "./animated-icon-button";
 import { FAB_SIZE, ICON_SIZE } from "@/constants";
 import { Entypo } from "@expo/vector-icons";
+import { AnimatedIconButton } from "./animated-icon-button";
 
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
 import { useFloatingActionButtons } from "../hooks";
 
-import Animated from "react-native-reanimated";
-import { getElevation, horizontalScale } from "@/utils";
-import { useSelectionModeAnimations } from "../animations";
-import { useToggleFloatingButtonAnimations } from "../animations/use-toggle-floating-button-animations";
 import { colors } from "@/ui/theme";
+import { getElevation, horizontalScale } from "@/utils";
+import Animated from "react-native-reanimated";
+import { useToggleFloatingButtonAnimations } from "../animations";
 
 export const FloatingActionsButton = () => {
     const { onCreateIconPress, onDeleteIconPress, isOpen, toggleFloatingButtons, selectionMode } =
         useFloatingActionButtons();
 
-    const { reanimatedFloatingContainerStyles } = useSelectionModeAnimations(selectionMode);
-
-    const { reaanimatedCreateIconStyles, reanimatedDeleteIconStyles } =
-        useToggleFloatingButtonAnimations(isOpen);
-
-    const onFloatingPress = () => {
-        toggleFloatingButtons();
-    };
+    const {
+        reaanimatedCreateIconStyles,
+        reanimatedDeleteIconStyles,
+        reanimatedFloatingContainerStyles
+    } = useToggleFloatingButtonAnimations(isOpen, selectionMode);
 
     return (
         <>
@@ -39,7 +35,7 @@ export const FloatingActionsButton = () => {
                     onPress={onCreateIconPress}
                     iconName="plus"
                 />
-                <Pressable onPress={onFloatingPress} style={styles.fabContainer}>
+                <Pressable onPress={toggleFloatingButtons} style={styles.fabContainer}>
                     <View style={styles.iconContainer}>
                         <Entypo name="dots-three-vertical" size={ICON_SIZE} color={colors.white} />
                     </View>

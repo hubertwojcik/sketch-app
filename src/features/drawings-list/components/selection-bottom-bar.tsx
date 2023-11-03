@@ -1,10 +1,9 @@
-import { Pressable, StyleSheet } from "react-native";
-import React from "react";
-import Animated from "react-native-reanimated";
 import { Text } from "@/ui";
-import { useSelectionModeAnimations } from "../animations";
-import { useWindowDimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import React from "react";
+import { Pressable, StyleSheet } from "react-native";
+import Animated from "react-native-reanimated";
+import { useBottomBarAnimation } from "../animations";
 
 import { borderRadiusSizes, colors, Spacings } from "@/ui/theme";
 import { horizontalScale, verticalScale } from "@/utils";
@@ -20,24 +19,11 @@ export const SelectionBottomBar = ({
     selectedAmount,
     deleteDrawings
 }: SelectionBottomBarProps) => {
-    const { width } = useWindowDimensions();
-    const { reanimatedBottomBarStyles } = useSelectionModeAnimations(isSelectionMode);
+    const { reanimatedBottomBarStyles } = useBottomBarAnimation(isSelectionMode);
 
     return (
-        <Animated.View
-            style={[
-                styles.tabContainer,
-                {
-                    transform: [
-                        {
-                            translateX: -width
-                        }
-                    ]
-                },
-                reanimatedBottomBarStyles
-            ]}
-        >
-            <Text style={styles.tabSelectedText}>Zaznaczono {selectedAmount}</Text>
+        <Animated.View style={[styles.tabContainer, reanimatedBottomBarStyles]}>
+            <Text style={styles.tabSelectedText}>Selected {selectedAmount}</Text>
             <Pressable onPress={deleteDrawings}>
                 <AntDesign name="delete" size={22} color={colors.white} />
             </Pressable>
@@ -47,6 +33,9 @@ export const SelectionBottomBar = ({
 
 const styles = StyleSheet.create({
     tabContainer: {
+        position: "absolute",
+        alignSelf: "center",
+        width: "100%",
         backgroundColor: colors.dark,
         flexDirection: "row",
         justifyContent: "space-between",

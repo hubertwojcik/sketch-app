@@ -2,11 +2,10 @@ import React from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 
-import { useSelectionModeAnimations } from "../animations";
 import { Text } from "@/ui";
-import { Spacings } from "@/ui/theme";
+import { borderRadiusSizes, colors, Spacings } from "@/ui/theme";
 import { horizontalScale, verticalScale } from "@/utils";
-import { borderRadiusSizes, colors } from "@/ui/theme";
+import { useListHeaderAnimations } from "../animations";
 
 type CancelSelectionMode = {
     isSelectionMode: boolean;
@@ -17,7 +16,7 @@ const WIDTH = Dimensions.get("screen").width;
 
 export const ListHeader = ({ cancelSelectionMode, isSelectionMode }: CancelSelectionMode) => {
     const { reanimatedCancelButtonStyles, reanimatedHeaderStyles } =
-        useSelectionModeAnimations(isSelectionMode);
+        useListHeaderAnimations(isSelectionMode);
 
     return (
         <View style={styles.headerContainer}>
@@ -27,7 +26,7 @@ export const ListHeader = ({ cancelSelectionMode, isSelectionMode }: CancelSelec
 
             <Animated.View style={[styles.cancelButtonContainer, reanimatedCancelButtonStyles]}>
                 <Pressable onPress={() => cancelSelectionMode()} style={styles.cancelButtonContent}>
-                    <Text style={styles.cancelText}>Anuluj</Text>
+                    <Text style={styles.cancelText}>Cancel</Text>
                 </Pressable>
             </Animated.View>
         </View>
