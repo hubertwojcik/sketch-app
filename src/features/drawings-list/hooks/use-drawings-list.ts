@@ -16,6 +16,7 @@ export const useDrawingsList = () => {
         chosenDrawingIds,
         handleDeleteModeSelection,
         isDrawingSelected,
-        selectedAmount
+        selectedAmount,
+        clearSelection: () => setChosenDrawingIds([])
     };
 };
