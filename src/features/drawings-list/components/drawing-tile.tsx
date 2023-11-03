@@ -2,10 +2,11 @@ import { Canvas, fitbox, Group, ImageSVG, rect, Skia } from "@shopify/react-nati
 import { Drawing } from "@/types";
 import { getElevation, horizontalScale } from "@/utils";
 import React, { useMemo } from "react";
-import { Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 
 import { DRAWINGS_LIST_COLUMNS } from "@/constants";
 import { borderRadiusSizes, colors } from "@/ui/theme";
+import { Checkmark } from "./checkmark";
 
 type DrawingTileProps = Required<Omit<Drawing, "drawingPaths">> & {
     onDrawingPress: (id: string, isDeleteMode: boolean) => void;
@@ -36,8 +37,9 @@ export function DrawingTile({
     return (
         <Pressable onPress={() => onDrawingPress(id, isDeleteMode)} style={styles.tileContainer}>
             {isDeleteMode && (
-                <View style={{ position: "absolute", zIndex: 20, right: 0 }}>
-                    <Text style={{ backgroundColor: "red" }}>{isDrawingSelected && "OK"}</Text>
+                <View style={{ position: "absolute", zIndex: 20, right: 10, top: 10 }}>
+                    <Checkmark isSelected={isDrawingSelected} />
+                    {/* <Text style={{ backgroundColor: "red" }}>{isDrawingSelected && "OK"}</Text> */}
                 </View>
             )}
             <View style={styles.tile}>
