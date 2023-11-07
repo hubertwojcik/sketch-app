@@ -1,4 +1,4 @@
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -14,23 +14,13 @@ export function DrawingHeader() {
 
     return (
         <View style={styles.wrapper}>
-            <View style={styles.headerRow}>
-                <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
-                    <Ionicons name="return-up-back-outline" size={ICON_SIZE} color={colors.black} />
-                </Pressable>
-                <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
-                    <Ionicons name="return-up-forward" size={ICON_SIZE} color={colors.black} />
-                </Pressable>
-            </View>
-            <View style={styles.headerRow}>
-                <Pressable onPress={onDrawingDiscard} style={styles.headerBackButton}>
-                    <AntDesign name="delete" size={ICON_SIZE} color={colors.black} />
-                </Pressable>
+            <Pressable onPress={onDrawingDiscard} style={styles.headerButton}>
+                <AntDesign name="delete" size={ICON_SIZE} color={colors.black} />
+            </Pressable>
 
-                <Pressable onPress={onDrawingSave} style={styles.headerBackButton}>
-                    <AntDesign name="save" size={ICON_SIZE} color={colors.black} />
-                </Pressable>
-            </View>
+            <Pressable onPress={onDrawingSave} style={styles.headerButton}>
+                <AntDesign name="save" size={ICON_SIZE} color={colors.black} />
+            </Pressable>
         </View>
     );
 }
@@ -45,14 +35,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         marginVertical: verticalScale(12),
+        columnGap: horizontalScale(20),
         backgroundColor: colors.white,
         ...getElevation(5)
     },
-    headerBackButton: {
-        paddingHorizontal: horizontalScale(12),
+    headerButton: {
+        paddingHorizontal: horizontalScale(10),
         borderRadius: Spacings.large,
         paddingVertical: verticalScale(10)
     },
-    headerSaveButton: { paddingVertical: verticalScale(10) },
-    headerRow: { flexDirection: "row" }
+    headerSaveButton: { paddingVertical: verticalScale(10) }
 });

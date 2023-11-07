@@ -11,7 +11,7 @@
 
 ![Live Project Screenshot](link-to-your-screenshot.png)
 
-This app was an exciting journey into the world of mobile graphics and state management in React Native. Key learnings include:
+This app was an exciting journey into the world of mobile animations and state management in React Native. Key learnings include:
 
 -   Enhancing proficiency in React Native and animations.
 -   Deepening understanding of Zustand for state management.
