@@ -9,7 +9,7 @@
 
 ## Overview
 
-![Live Project Screenshot](link-to-your-screenshot.png)
+https://github.com/hubertwojcik/sketch-app/assets/55180668/dd3879b9-eaf9-4c19-b338-3eeaa069da1a
 
 This app was an exciting journey into the world of mobile animations and state management in React Native. Key learnings include:
 
