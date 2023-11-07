@@ -38,7 +38,7 @@ export default function Splash() {
     const router = useRouter();
 
     const enterApp = () => {
-        router.replace("notes");
+        router.replace("drawings");
     };
 
     const onEnterIconPress = () => {

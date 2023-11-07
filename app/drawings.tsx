@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { DrawingsList } from "@/features";
 
-export default function NotesScreen() {
+export default function DrawingsListScreen() {
     return (
         <>
             <SafeAreaView style={styles.container}>

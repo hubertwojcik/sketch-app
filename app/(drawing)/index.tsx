@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Drawing } from "@/features";
 import { colors } from "@/ui/theme";
 
-export default function Note() {
+export default function DrawingScreen() {
     return (
         <SafeAreaView style={styles.wrapper}>
             <Drawing />
