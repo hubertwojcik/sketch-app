@@ -81,7 +81,6 @@ export function Drawing() {
                             strokeJoin="round"
                             strokeCap="round"
                             path={line.path}
-                            paint={line.paint}
                             strokeWidth={line.paint.getStrokeWidth()}
                             color={line.paint.getColor()}
                         />

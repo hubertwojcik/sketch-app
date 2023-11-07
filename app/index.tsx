@@ -28,7 +28,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const CIRCLE_SIZE = 100;
+const CIRCLE_SIZE = 85;
 
 export default function Splash() {
     const rotation = useSharedValue(CIRCLE_INITIAL_ROTATION);

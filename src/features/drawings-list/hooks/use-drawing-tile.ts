@@ -11,6 +11,7 @@ export const useDrawingTile = (onDeleteModeSelect: (drawingId: string) => void) 
     const selectAndNavigateToDrawing = useCallback(
         (drawingId: string) => {
             const drawing = getDrawingById(drawingId);
+
             if (!drawing) return;
             setLocalDrawing(drawing);
             router.push({ pathname: `(drawing)/` });

@@ -1,4 +1,4 @@
-import { SplashScreen, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import React, { useEffect } from "react";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -16,12 +16,7 @@ export default function RootLayout() {
         if (error) throw error;
     }, [error]);
 
-    return (
-        <>
-            {!loaded && <SplashScreen />}
-            {loaded && <RootLayoutNav />}
-        </>
-    );
+    return <>{loaded && <RootLayoutNav />}</>;
 }
 
 function RootLayoutNav() {

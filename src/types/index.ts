@@ -1,5 +1,5 @@
 import { PickerColors } from "@/constants";
-import { SkPath, SkPaint } from "@shopify/react-native-skia";
+import { SkPaint, SkPath } from "@shopify/react-native-skia";
 
 export enum InteractionMode {
     CLOSED = "CLOSED",
